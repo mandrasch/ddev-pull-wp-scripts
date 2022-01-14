@@ -7,18 +7,19 @@
 !/.gitignore
 !/README.md
 !/LICENSE
-!/.prettierrc
+
+# track some files and folders in DDEV
+!/.ddev
+/.ddev/*
 
 # track DDEV config example
-!/.ddev/config.yaml.example
+!/.ddev/example.config.yaml
 
 # track DDEV config 
 # - uncomment to enable (recommended):
 # !/.ddev/config.yaml
 
 # track DDEV providers scripts
-!/.ddev
-/.ddev/*
 !/.ddev/providers
 /.ddev/providers/*
 !/.ddev/providers/ssh.yaml

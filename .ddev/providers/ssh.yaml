@@ -1,34 +1,17 @@
 # Pull a live site into DDEV
 
 # This pulls a live wordpress site via SSH, 
-# WP-CLI (or mysqldump) and rsync into DDEV.
+# WP-CLI (or mysqldump) and rsync into DDEV
 
-# Usage:
-# 1. Add environment as web_environment to config.yaml
-# 2. Run 'ddev pull wp-production'
+# Requires DDEV version >= 1.18.2 !
+# (https://github.com/drud/ddev/releases/tag/v1.18.2)
 
-# More general information regarding the DDEV pull feature:
-# https://ddev.readthedocs.io/en/stable/users/providers/provider-introduction/
-
-# !! MAKE SURE YOU GOT DDEV VERSION >= 1.18.2 !!
-# https://github.com/drud/ddev/releases
-# (Otherwise overriding files_import_command won't work)
-
+# Variables retrieved from .ddev/config.yaml -> web_enviroment=[]
 environment_variables:
   sshUser: ${PRODUCTION_SSH_USER}
   sshHost: ${PRODUCTION_SSH_HOST}
   sshWpDir: ${PRODUCTION_SSH_WP_DIR}
-  childThemeFolderName: ${CHILD_THEME_FOLDER_NAME} # TODO:rename
-  
-  # These values are loaded via .ddev/config.yaml, you need 
-  # to add the following to .ddev/config.yaml and run 'ddev restart':
-  # 
-  # web_environment:
-  # - PRODUCTION_SSH_USER=ssh12345678
-  # - PRODUCTION_SSH_HOST=ngcobalt12345678.manitu.net
-  # - PRODUCTION_SSH_WP_DIR=/home/sites/site12345678/web/nature-blog.mandrasch.eu
-  # 
-  # See: https://ddev.readthedocs.io/en/stable/users/extend/customization-extendibility/#providing-custom-environment-variables-to-a-container
+  childThemeFolderName: ${CHILD_THEME_FOLDER_NAME} 
 
 # 1. Add ssh keys to the user agent
 auth_command:
@@ -78,17 +61,22 @@ files_pull_command:
   command: |
     # set -x   # You can enable bash debugging output by uncommenting
     set -eu -o pipefail
-    ls /var/www/html/.ddev >/dev/null # This just refreshes stale NFS if possible
+    ls /var/www/html/.ddev >/dev/null 
     pushd /var/www/html/${DDEV_DOCROOT} >/dev/null
+
     # Add trailing slash for sshWpDir if missing, 
-    # thanks to https://gist.github.com/luciomartinez/c322327605d40f86ee0c
+    # (thx https://gist.github.com/luciomartinez/c322327605d40f86ee0c)
     [[ "${sshWpDir}" != */ ]] && sshWpDir="${sshWpDir}/"
-    # TODO: use reverse .gitignore file to include, but include-from does not work with /path/-, only used for patterns
-    # Sync files from remote (${sshUser}@${sshHost}:${sshWpDir}) to local docroot (.)
-    # not working, because it uses pattern, but .gitignore uses paths --> rsync -azh --progress --stats --include-from='.gitignore' --exclude='*' ${sshUser}@${sshHost}:${sshWpDir} .
-    # not working as well rsync -azhvv --progress --stats --filter='merge,+ .gitignore' ${sshUser}@${sshHost}:${sshWpDir} .
-    # current implementation:
-    rsync -azh --progress --stats --exclude="wp-content/themes/${childThemeFolderName}" --exclude=".git/" --exclude=".ddev/" ${sshUser}@${sshHost}:${sshWpDir} .
+
+    echo "Downloading files from remote site (except child theme folder ${childThemeFolderName}) ..."
+    rsync -azh --progress --stats \
+      --exclude=".git/" \
+      --exclude=".gitignore" \
+      --exclude=".ddev/" \
+      --exclude="README.md" \
+      --exclude="LICENSE" \
+      --exclude="wp-content/themes/${childThemeFolderName}" \
+      ${sshUser}@${sshHost}:${sshWpDir} .
   service: web
 
 # 4. Set database connection + migrate URLs in DB

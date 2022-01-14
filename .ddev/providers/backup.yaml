@@ -58,10 +58,12 @@ files_import_command:
     pushd "/var/www/html/${DDEV_DOCROOT}" >/dev/null
 
     echo "Rsyncing all files and folders (except the child theme folder ${childThemeFolderName})"
-    rsync -azh --stats --progress -vv \
+    rsync -azh --stats --progress \
       --exclude=".git/" \
       --exclude=".gitignore" \
       --exclude=".ddev/" \
+      --exclude="README.md" \
+      --exclude="LICENSE" \
       --exclude="wp-content/themes/${childThemeFolderName}" \
       /var/www/html/.ddev/.downloads/files/ .
     
