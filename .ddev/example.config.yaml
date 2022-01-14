@@ -13,14 +13,16 @@ php_version: "7.4"
 mariadb_version: "10.3"
 webserver_type: nginx-fpm
 
-# Variables for the pull (provider) scripts
-# - if you change these, run 'ddev restart'
+# Variables for the pull scripts
 web_environment:
-# - if you don't use a child theme currently, just keep 'twentytwentyone-child'
 - CHILD_THEME_FOLDER_NAME=twentytwentyone-child
-# - if you don't want to use 'wp pull ssh', just keep the following values
 - PRODUCTION_SSH_HOST=ssh-connect.example.org
 - PRODUCTION_SSH_USER=sshUser123
 - PRODUCTION_SSH_WP_DIR=/var/www/html/my-website.eu/
+# ##################################################
+# #   If you change values, run 'ddev restart' !!  #
+# ##################################################
 
-# All options: https://ddev.readthedocs.io/en/stable/users/extend/config_yaml/
+# Helpful advice:
+# - if you don't use a child theme currently, just keep 'twentytwentyone-child'
+# - if you don't want to use 'wp pull ssh', just keep the default values
