@@ -1,15 +1,15 @@
 # ddev pull wp scripts
 
-*Keep calm and pull your site.* 🧘
+🧘&nbsp; *Keep calm and pull your site.* 🧘
 
-Open collection of DDEV pull scripts for happy local WordPress development. Pull in the latest site content to your local development enviroment for peaceful and safe testing. 
+Open collection of DDEV pull scripts for happy local WordPress development. Pull in the latest site content to your dev laptop for local testing and development.
 
 Requires at least [DDEV 1.18.2](https://github.com/drud/ddev/releases/tag/v1.18.2), Status: Work in Progress
 
 ## Scripts
 
-- `ddev pull ssh` 👉  pull site via SSH
-- `ddev pull backup` 👉  import a BackWpUp .zip-file
+- ⚡️&nbsp; `ddev pull ssh` - *pull site with just one command*<br>
+- 💾 &nbsp; `ddev pull backup` - *download and import a BackWpUp .zip-file*
 
 Screencasts: *coming soon*
 
@@ -29,16 +29,14 @@ and adjust your configuration or
 
 ## Usage
 
-## ddev pull ssh
+## ⚡️&nbsp;  ddev pull ssh
 
-Pull in your live WordPress site via SSH, your webspaces needs support for WP-CLI or mysqldump.
+Pull in your live WordPress site via SSH (and rsync). Your webspaces needs support for WP-CLI or mysqldump, you need to be able to connect to your SSH webspace via SSH key authentication (without password).
 
 1. `ddev start` (on first start)
 1. `ddev pull ssh`
 
-You need to be able to connect to your SSH webspace via SSH key authentication (without password). On first run DDEV will ask you to run `ddev auth ssh`. 
-
-## ddev pull backup
+## 💾 &nbsp;ddev pull backup
 
 Create and download a BackWpUp backup-file from your live site, Import it your local DDEV project.
 
@@ -49,9 +47,15 @@ Create and download a BackWpUp backup-file from your live site, Import it your l
 1. `ddev pull backup`
 1. Open imported website in browser: `ddev launch`
 
+## Child theme deployment
+
+You can optionally manage a child theme via git and deploy it with a tool like [WPPusher](https://wppusher.com/) (no git on server required).
+
 ## Technical Documentation
 
 Pull scripts are import steps for database and files which are stored as .yaml-files in `.ddev/providers`. They can be executed via `ddev pull`. See [DDEV pull (providers)](https://ddev.readthedocs.io/en/stable/users/providers/provider-introduction/) documentation for more insights.
+
+ Design, test  and develop sites in local isolated [DDEV](https://ddev.readthedocs.io/en/stable/) project environments without breaking the live site.
 
 ### Reset / delete
 
