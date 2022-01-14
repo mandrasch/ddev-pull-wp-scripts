@@ -1,4 +1,4 @@
-# ddev pull wp scripts
+# DDEV pull wp scripts
 
 🧘&nbsp; *Keep calm and pull your site.* 🧘
 
