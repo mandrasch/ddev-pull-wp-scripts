@@ -38,7 +38,7 @@ You as well use the [Online Generator](https://mandrasch.github.io/ddev-pull-wp-
 
 ## 💾 &nbsp;ddev pull backup
 
-Create and (manually) download a BackWpUp backup-file from your live site, import it to your local DDEV project. No SSH, FTP, etc. - just download your backup file and import it.
+Create and (manually) download a BackWpUp backup-file from your live site, import it to your local DDEV project. No SSH required, just download your backup file and import it as .zip-file.
 
 **First time project setup**
 
