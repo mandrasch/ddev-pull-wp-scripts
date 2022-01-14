@@ -4,28 +4,16 @@
 
 Open collection of DDEV pull scripts for happy local WordPress development. Pull in the latest site content to your dev laptop for local testing and development. Requires at least [DDEV 1.18.2](https://github.com/drud/ddev/releases/tag/v1.18.2).
 
-Status: Work in Progress, please use with caution.
+Status: *Work in Progress, please use with caution.*
 
 ## Scripts
 
 - ⚡️&nbsp; `ddev pull ssh` - *pull site with just one command*<br>
 - 💾 &nbsp; `ddev pull backup` - *download and import a BackWpUp .zip-file*
 
-Screencasts: *coming soon*
+## Screencasts 
 
-## General setup
-
-**Online generator:**
-
-1. Use the [Online Generator](https://mandrasch.github.io/ddev-pull-wp-generator/)
-1. Overwrite your local files with the generated `.ddev/config.yaml`and `.gitignore` from the Online Generator
-
-**Manual setup:**
-
-1. Copy `.ddev/example.config.yaml` to `.ddev/config.yaml`
-1. Adjust your configuration
-1. Adjust child theme folder name in `.gitignore`
-and adjust your configuration or 
+*coming soon*
 
 ## Usage
 
@@ -33,14 +21,35 @@ and adjust your configuration or
 
 Pull in your live WordPress site via SSH (and rsync). Your webspaces needs support for WP-CLI or mysqldump, you need to be able to connect to your SSH webspace via SSH key authentication (without password).
 
-1. `ddev start` (on first start)
-1. `ddev pull ssh`
+**First time project setup**
+
+You as well use the [Online Generator](https://mandrasch.github.io/ddev-pull-wp-generator/).
+
+1. Copy `.ddev/example.config.yaml` to `.ddev/config.yaml`
+1. Configure SSH host, user and WordPress path on server in `.ddev/config.yaml`
+1. Configure Child theme folder name in `.ddev/config.yaml` (optional)
+3. Adjust child theme folder name in `.gitignore` (optional)
+4. Run `ddev start` and `ddev auth ssh`
+
+**Pull in your latest site content**
+
+1. Run `ddev pull ssh`
 
 ## 💾 &nbsp;ddev pull backup
 
-Create and download a BackWpUp backup-file from your live site, Import it your local DDEV project.
+Create and download a BackWpUp backup-file from your live site, import it to your local DDEV project.
 
-1. `ddev start`
+**First time project setup**
+
+You as well use the [Online Generator](https://mandrasch.github.io/ddev-pull-wp-generator/).
+
+1. Copy `.ddev/example.config.yaml` to `.ddev/config.yaml`
+1. Configure Child theme folder name in `.ddev/config.yaml` (optional)
+3. Adjust child theme folder name in `.gitignore` (optional)
+4. Run `ddev start` and `ddev auth ssh`
+
+**Import a backup:**
+
 1. Create backup with [BackWPup – WordPress Backup Plugin](https://wordpress.org/plugins/backwpup/) (Open Source) on your live site
 1. Download BackWpUp .zip file to root of local project folder
 1. Rename backup file to `backup.zip`
