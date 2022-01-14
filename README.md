@@ -2,9 +2,9 @@
 
 🧘&nbsp; *Keep calm and pull your site.* 🧘
 
-Open collection of DDEV pull scripts for happy local WordPress development. Pull in the latest site content to your dev laptop for local testing and development.
+Open collection of DDEV pull scripts for happy local WordPress development. Pull in the latest site content to your dev laptop for local testing and development. Requires at least [DDEV 1.18.2](https://github.com/drud/ddev/releases/tag/v1.18.2).
 
-Requires at least [DDEV 1.18.2](https://github.com/drud/ddev/releases/tag/v1.18.2), Status: Work in Progress
+Status: Work in Progress, please use with caution.
 
 ## Scripts
 
