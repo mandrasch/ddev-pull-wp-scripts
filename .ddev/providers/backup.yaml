@@ -16,8 +16,9 @@ environment_variables:
 
 # - This step unzips the sql file from backup and generates a .sql.gz file,
 #   which DDEV imports automatically (via standard db_import_command).
-# - This script also determines name of database via WP-CLI ('wp config get'), the
-#   url replace-search will be done later in files_import_command because we need
+# - BackWPup generates a <DB_NAME>.sql file, therefore the determines the name
+#   of the .sql-file via bash (thx to https://stackoverflow.com/a/63494305/809939)
+# - The url replace-search will be done later in files_import_command because we need
 #   the all wordpress files in order to connect to the database via WP-CLI.
 db_pull_command:
   command: |
@@ -28,10 +29,10 @@ db_pull_command:
     echo "Unzip wp-config.php from backup .zip-file to get DB_NAME-value ..."
     unzip -j "${backupfile}" "wp-config.php" -d /var/www/html/.ddev/.downloads/db
     pushd /var/www/html/.ddev/.downloads/db >/dev/null
-    echo "Unzipping $(wp config get DB_NAME).sql from backup .zip-file ... ";
-    unzip -j "/var/www/html/${DDEV_DOCROOT}${backupfile}" "$(wp config get DB_NAME).sql" -d .
+    echo "Unzipping $(sed -n "s/define( *'DB_NAME', *'\([^']*\)'.*/\1/p" wp-config.php).sql from backup .zip-file ... ";
+    unzip -j "/var/www/html/${DDEV_DOCROOT}${backupfile}" "$(sed -n "s/define( *'DB_NAME', *'\([^']*\)'.*/\1/p" wp-config.php).sql" -d .
     echo "Rename and gzip the .sql file to let DDEV handle the db import ..."
-    mv $(wp config get DB_NAME).sql db.sql
+    mv "$(sed -n "s/define( *'DB_NAME', *'\([^']*\)'.*/\1/p" wp-config.php).sql" db.sql
     gzip -cvf /var/www/html/.ddev/.downloads/db/db.sql > /var/www/html/.ddev/.downloads/db.sql.gz
   service: web
 
@@ -55,19 +56,22 @@ files_import_command:
     # set -x   # You can enable bash debugging output by uncommenting
     set -eu -o pipefail
     pushd "/var/www/html/${DDEV_DOCROOT}" >/dev/null
+
     echo "Rsyncing all files and folders (except the child theme folder ${childThemeFolderName})"
-    rsync -azh --stats \
+    rsync -azh --stats --progress -vv \
       --exclude=".git/" \
       --exclude=".gitignore" \
       --exclude=".ddev/" \
       --exclude="wp-content/themes/${childThemeFolderName}" \
       /var/www/html/.ddev/.downloads/files/ .
+    
     echo "Adjusting wp-config to connect to DDEV database (credentials) ..."
-    # DDEV uses db,db,db as DB_USER,-PASSWORD and -HOST
+    # (DDEV uses db,db,db as DB_USER,-PASSWORD and -HOST)
     wp config set DB_NAME "db" && wp config set DB_USER "db" && wp config set DB_PASSWORD "db" && wp config set DB_HOST "db"
-    # Migration - important:
+
     echo "Replacing the old URL ($(wp option get siteurl)) in database with DDEV local url (${DDEV_PRIMARY_URL})..."
-    wp search-replace $(wp option get siteurl) "${DDEV_PRIMARY_URL}"
+    wp search-replace "$(wp option get siteurl)" "${DDEV_PRIMARY_URL}"
+    
     # Optional steps, depends on how you site is built:
     # echo "Deleting config path for WP Super Cache (if installed) ..."
     # wp config delete WPCACHEHOME
