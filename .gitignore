@@ -1,0 +1,35 @@
+# Ignore all ... (relative from docroot, not via glob)
+/*
+
+# ... BUT track specific files and folders: 
+
+# track general files
+!/.gitignore
+!/README.md
+!/LICENSE
+!/.prettierrc
+
+# track DDEV config example
+!/.ddev/config.yaml.example
+
+# track DDEV config 
+# - uncomment to enable (recommended):
+# !/.ddev/config.yaml
+
+# track DDEV providers scripts
+!/.ddev
+/.ddev/*
+!/.ddev/providers
+/.ddev/providers/*
+!/.ddev/providers/ssh.yaml
+!/.ddev/providers/backup.yaml
+
+# track WordPress child theme
+!/wp-content
+/wp-content/*
+!/wp-content/themes
+/wp-content/themes/*
+!/wp-content/themes/twentytwentyone-child
+
+# For more info about this gitignore-pattern, see e.g.:
+# https://stackoverflow.com/a/29012085/809939)

@@ -1,0 +1,77 @@
+# ddev pull backup
+# Imports a backup.zip from docroot into the DDEV project
+
+# - This script extracts and imports a .zip-backup-file created with
+#   plugin BackWPup https://wordpress.org/plugins/backwpup/
+# - The script will automatically replace (migrate) the URLs in database
+#   in the last step (See: files_import_command)
+# - The child theme folder will not be overwritten when files are imported
+
+# - Requires DDEV version >= 1.18.2 !
+#   (https://github.com/drud/ddev/releases/tag/v1.18.2)
+
+environment_variables:
+  backupfile: backup.zip # needs to be in docroot (your project folder)
+  childThemeFolderName: ${CHILD_THEME_FOLDER_NAME} # from .ddev/config.yaml
+
+# - This step unzips the sql file from backup and generates a .sql.gz file,
+#   which DDEV imports automatically (via standard db_import_command).
+# - This script also determines name of database via WP-CLI ('wp config get'), the
+#   url replace-search will be done later in files_import_command because we need
+#   the all wordpress files in order to connect to the database via WP-CLI.
+db_pull_command:
+  command: |
+    # set -x   # You can enable bash debugging output by uncommenting
+    set -eu -o pipefail
+    pushd "/var/www/html/${DDEV_DOCROOT}" >/dev/null
+    mkdir -p /var/www/html/.ddev/.downloads/db
+    echo "Unzip wp-config.php from backup .zip-file to get DB_NAME-value ..."
+    unzip -j "${backupfile}" "wp-config.php" -d /var/www/html/.ddev/.downloads/db
+    pushd /var/www/html/.ddev/.downloads/db >/dev/null
+    echo "Unzipping $(wp config get DB_NAME).sql from backup .zip-file ... ";
+    unzip -j "/var/www/html/${DDEV_DOCROOT}${backupfile}" "$(wp config get DB_NAME).sql" -d .
+    echo "Rename and gzip the .sql file to let DDEV handle the db import ..."
+    mv $(wp config get DB_NAME).sql db.sql
+    gzip -cvf /var/www/html/.ddev/.downloads/db/db.sql > /var/www/html/.ddev/.downloads/db.sql.gz
+  service: web
+
+files_pull_command:
+  command: |
+    # set -x   # You can enable bash debugging output by uncommenting
+    set -eu -o pipefail
+    pushd /var/www/html/${DDEV_DOCROOT} >/dev/null
+    echo "Unzipping the backup .zip file to .ddev/.downloads/files ..."
+    unzip -q "${backupfile}" -d /var/www/html/.ddev/.downloads/files
+    # echo "Content of .ddev/.downloads/files after sync:"
+    # ls -l /var/www/html/.ddev/.downloads/files
+  service: web
+
+# Final steps:
+#   a) Overwrite files in docroot, without overwrite child theme folder
+#   b) Replace live site url (determined from backup) with DDEV_PRIMARY_URL (https://<name>.ddev.site)
+#   TODO: re-generate permalinks? other steps needed?
+files_import_command:
+  command: |
+    # set -x   # You can enable bash debugging output by uncommenting
+    set -eu -o pipefail
+    pushd "/var/www/html/${DDEV_DOCROOT}" >/dev/null
+    echo "Rsyncing all files and folders (except the child theme folder ${childThemeFolderName})"
+    rsync -azh --stats \
+      --exclude=".git/" \
+      --exclude=".gitignore" \
+      --exclude=".ddev/" \
+      --exclude="wp-content/themes/${childThemeFolderName}" \
+      /var/www/html/.ddev/.downloads/files/ .
+    echo "Adjusting wp-config to connect to DDEV database (credentials) ..."
+    # DDEV uses db,db,db as DB_USER,-PASSWORD and -HOST
+    wp config set DB_NAME "db" && wp config set DB_USER "db" && wp config set DB_PASSWORD "db" && wp config set DB_HOST "db"
+    # Migration - important:
+    echo "Replacing the old URL ($(wp option get siteurl)) in database with DDEV local url (${DDEV_PRIMARY_URL})..."
+    wp search-replace $(wp option get siteurl) "${DDEV_PRIMARY_URL}"
+    # Optional steps, depends on how you site is built:
+    # echo "Deleting config path for WP Super Cache (if installed) ..."
+    # wp config delete WPCACHEHOME
+    echo "All set, have fun! Run 'ddev launch' to open your site."
+  service: web
+# Resources used:
+# - Get config value via bash https://stackoverflow.com/a/63494305/809939; (not used)
