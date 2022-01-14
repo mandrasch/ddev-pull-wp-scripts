@@ -11,9 +11,10 @@ Status: *Work in Progress, please use with caution.*
 - ⚡️&nbsp; `ddev pull ssh` - *pull site with just one command*<br>
 - 💾 &nbsp; `ddev pull backup` - *download and import a BackWpUp .zip-file*
 
-## Screencasts 
+## Screencasts & Online Generator
 
-*coming soon*
+- Screencasts: *coming soon*
+- Generator: [DDEV pull wp](https://mandrasch.github.io/ddev-pull-wp-generator/)-Online Generator
 
 ## Usage
 
