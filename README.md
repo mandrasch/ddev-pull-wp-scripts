@@ -42,8 +42,6 @@ Create and download a BackWpUp backup-file from your live site, import it to you
 
 **First time project setup**
 
-You as well use the [Online Generator](https://mandrasch.github.io/ddev-pull-wp-generator/).
-
 1. Copy `.ddev/example.config.yaml` to `.ddev/config.yaml`
 1. Configure Child theme folder name in `.ddev/config.yaml` (optional)
 3. Adjust child theme folder name in `.gitignore` (optional)
