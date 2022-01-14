@@ -19,7 +19,7 @@ Status: *Work in Progress, please use with caution.*
 
 ## ⚡️&nbsp;  ddev pull ssh
 
-Pull in your live WordPress site via SSH (and rsync). Your webspaces needs support for WP-CLI or mysqldump, you need to be able to connect to your SSH webspace via SSH key authentication (without password).
+Pull in your live WordPress site via SSH (and rsync). Your webspace needs support for WP-CLI or mysqldump, you need to be able to connect to your SSH webspace via SSH key authentication (without password).
 
 **First time project setup**
 
