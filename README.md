@@ -68,7 +68,7 @@ Pull scripts are import steps for database and files which are stored as .yaml-f
 ### Reset / delete
 
 - `git clean -fdx -e .ddev`
-    - removes all synced (untracked) files and directories, but without deleting the DDEV folder
+    - removes all untracked files and directories, but without deleting the DDEV folder
 - `git clean -fdx`
     - removes all untracked files and directories
     - if .ddev/config.yaml is untracked, it will be removed as well
