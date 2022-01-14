@@ -8,3 +8,10 @@
 
 
 DDEV Provider Integration / PULL Scripts => docs
+
+
+
+# Reset / Delete
+
+- `git clean -fdx` (removes all gitignored files and directories)
+- `ddev delete -O` (deletes DDEV project)
