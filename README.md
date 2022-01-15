@@ -37,9 +37,11 @@ Pull in your live WordPress site via SSH (and rsync). Your webspace needs suppor
 
 1. Run `ddev pull ssh`
 
-That's it, run `ddev launch` to open your site in the web browser.
+That's it, run `ddev launch` to open your site in the web browser. If you experience issues, see [Troubleshooting](#troubleshooting).
 
 Source code: [.ddev/providers/ssh.yaml](https://github.com/mandrasch/ddev-pull-wp-scripts/blob/main/.ddev/providers/ssh.yaml)
+
+If you want to clean and delete all pulled filles, you can use `git clean -fdx -e .ddev`. 
 
 ## 💾 &nbsp;ddev pull backup
 
@@ -83,11 +85,17 @@ Pull scripts are import steps for database and files which are stored as .yaml-f
 - `ddev delete -O`
     - deletes DDEV project with database and containers (git-tracked files will be kept)
 
+## Troubleshooting
+
+### ERR_TOO_MANY_REDIRECTS (apache)
+
+If .htaccess has a https-only rule with something like 'RewriteCond %{HTTPS} !=on', it will result in 'ERR_TOO_MANY_REDIRECTS'. Just remove these rules from .htaccess. https://twitter.com/m_andrasch/status/1481290725694349316
+
 ## Acknowledgements
 
 Thanks to 
 - DDEV maintainer [@randyfay](https://github.com/rfay) for helpful advice
-- [@dahaupt](https://github.com/dahaupt) for [advice on db] sync(https://github.com/drud/ddev/discussions/2940#discussioncomment-1665163),
+- [@dahaupt](https://github.com/dahaupt) for [advice on db sync](https://github.com/drud/ddev/discussions/2940#discussioncomment-1665163),
 - all people in the WordPress & [DDEV community](https://discord.gg/kDvSFBSZfs) for sharing their knowledge online
 - my colleagues at [gugler* MarkenSinn](https://www.gugler.at/markensinn)
 
