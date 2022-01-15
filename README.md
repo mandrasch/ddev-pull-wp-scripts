@@ -36,6 +36,10 @@ Pull in your live WordPress site via SSH (and rsync). Your webspace needs suppor
 
 1. Run `ddev pull ssh`
 
+That's it, run `ddev launch` to open your site in the web browser.
+
+Source code: `[.ddev/providers/ssh.yaml](https://github.com/mandrasch/ddev-pull-wp-scripts/blob/main/.ddev/providers/ssh.yaml)`
+
 ## 💾 &nbsp;ddev pull backup
 
 Create and (manually) download a BackWpUp backup-file from your live site, import it to your local DDEV project. No SSH required, just download your backup file and import it as .zip-file.
@@ -55,9 +59,11 @@ Create and (manually) download a BackWpUp backup-file from your live site, impor
 1. `ddev pull backup`
 1. Open imported website in browser: `ddev launch`
 
+Source code: `[.ddev/providers/backup.yaml](https://github.com/mandrasch/ddev-pull-wp-scripts/blob/main/.ddev/providers/backup.yaml)`
+
 ## Child theme deployment
 
-You can optionally manage a child theme via git and deploy it with a tool like [WPPusher](https://wppusher.com/) (no git on server required).
+You can optionally manage a child theme via git and deploy it with a tool like [WPPusher](https://wppusher.com/) (no git on server required). This repository already contains an example child thme.
 
 ## Technical Documentation
 
