@@ -28,9 +28,10 @@ Pull in your live WordPress site via SSH (and rsync). Your webspace needs suppor
 1. Copy `.ddev/example.config.yaml` to `.ddev/config.yaml`
    (You can as well use the [Online Generator](https://mandrasch.github.io/ddev-pull-wp-generator/))
 1. Configure SSH host, user and WordPress path on server in `.ddev/config.yaml`
-1. Configure Child theme folder name in `.ddev/config.yaml` (optional)
-3. Adjust child theme folder name in `.gitignore` (optional)
-4. Run `ddev start` and `ddev auth ssh`
+1. (optional) Configure Child theme folder name in `.ddev/config.yaml` 
+1. (optional) Adjust child theme folder name in `.gitignore` (optional)
+1. (optional) Download your current child theme to the repository (use [plugin](https://de.wordpress.org/plugins/download-plugins-dashboard/))
+1. Run `ddev start` and `ddev auth ssh`
 
 **Pull in your latest site content**
 
@@ -38,7 +39,7 @@ Pull in your live WordPress site via SSH (and rsync). Your webspace needs suppor
 
 That's it, run `ddev launch` to open your site in the web browser.
 
-Source code: `[.ddev/providers/ssh.yaml](https://github.com/mandrasch/ddev-pull-wp-scripts/blob/main/.ddev/providers/ssh.yaml)`
+Source code: [.ddev/providers/ssh.yaml](https://github.com/mandrasch/ddev-pull-wp-scripts/blob/main/.ddev/providers/ssh.yaml)
 
 ## 💾 &nbsp;ddev pull backup
 
@@ -59,11 +60,11 @@ Create and (manually) download a BackWpUp backup-file from your live site, impor
 1. `ddev pull backup`
 1. Open imported website in browser: `ddev launch`
 
-Source code: `[.ddev/providers/backup.yaml](https://github.com/mandrasch/ddev-pull-wp-scripts/blob/main/.ddev/providers/backup.yaml)`
+Source code: [.ddev/providers/backup.yaml](https://github.com/mandrasch/ddev-pull-wp-scripts/blob/main/.ddev/providers/backup.yaml)
 
 ## Child theme deployment
 
-You can optionally manage a child theme via git and deploy it with a tool like [WPPusher](https://wppusher.com/) (no git on server required). This repository already contains an example child thme.
+You can optionally manage a child theme via git and deploy it with a tool like [WPPusher](https://wppusher.com/) (no git on server required). This repository already contains an example child theme. 
 
 ## Technical Documentation
 
