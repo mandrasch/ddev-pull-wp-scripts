@@ -54,7 +54,7 @@ Create and (manually) download a BackWpUp backup-file from your live site, impor
 
 **Import a backup:**
 
-1. Create backup with [BackWPup – WordPress Backup Plugin](https://wordpress.org/plugins/backwpup/) (Open Source) on your live site
+1. Create a backup with [BackWPup – WordPress Backup Plugin](https://wordpress.org/plugins/backwpup/) (Open Source) on your live site
 1. Download BackWpUp .zip file to root of local project folder
 1. Rename backup file to `backup.zip`
 1. `ddev pull backup`
