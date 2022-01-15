@@ -7,6 +7,8 @@
 name: my-wp-site
 type: wordpress
 docroot: ""
+nfs_mount_enabled: false
+mutagen_enabled: false
 
 # WebServer settings
 php_version: "7.4"
