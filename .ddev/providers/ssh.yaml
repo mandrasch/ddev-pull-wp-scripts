@@ -64,7 +64,8 @@ files_pull_command:
     # (thx https://gist.github.com/luciomartinez/c322327605d40f86ee0c)
     [[ "${sshWpDir}" != */ ]] && sshWpDir="${sshWpDir}/"
 
-    echo "Downloading files from remote site (except child theme folder ${childThemeFolderName}) ..."
+    echo "Downloading files from remote site, except child theme folder ${childThemeFolderName}) ..."
+    # exclude child theme + some default locations of wordpress backup plugins
     rsync -azh --progress --stats \
       --exclude=".git/" \
       --exclude=".gitignore" \
@@ -72,6 +73,16 @@ files_pull_command:
       --exclude="README.md" \
       --exclude="LICENSE" \
       --exclude="wp-content/themes/${childThemeFolderName}" \
+      --exclude="backwup-*-backups/" \
+      --exclude="backwup-*-logs/" \
+      --exclude="backwup-*-temp/" \
+      --exclude="cache" \
+      --exclude="wflogs" \
+      --exclude="updraft" \
+      --exclude="ai1wm-backups" \
+      --exclude="snapshots" \
+      --exclude="ithemes-security" \
+      --exclude="ibackwpup-restore" \
       ${sshUser}@${sshHost}:${sshWpDir} .
   service: web
 
