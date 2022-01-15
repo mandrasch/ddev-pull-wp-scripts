@@ -2,19 +2,19 @@
 
 🧘&nbsp; *Keep calm and pull your site.* 🧘
 
-Open collection of DDEV pull scripts for happy local WordPress development. Pull in the latest site content to your dev laptop for local testing and development. Requires at least [DDEV 1.18.2](https://github.com/drud/ddev/releases/tag/v1.18.2).
+Open collection of DDEV pull scripts for happy local WordPress development: Pull in the latest site content to your local dev sever. Test, develop and design in peace without breaking your live site. These scripts require at least [DDEV 1.18.2](https://github.com/drud/ddev/releases/tag/v1.18.2).
 
 Status: *Work in Progress, please use with caution.*
 
 ## Scripts
 
-- ⚡️&nbsp; `ddev pull ssh` - *pull site with just one command*<br>
+- ⚡️&nbsp; `ddev pull ssh` - *pull a site with just one command*<br>
 - 💾 &nbsp; `ddev pull backup` - *download and import a BackWpUp .zip-file*
 
 ## Screencasts & Online Generator
 
 - Screencasts: *coming soon*
-- Generator: [DDEV pull wp generator](https://mandrasch.github.io/ddev-pull-wp-generator/)
+- Online config generator: [DDEV pull wp generator](https://mandrasch.github.io/ddev-pull-wp-generator/)
 
 ## Usage
 
@@ -24,9 +24,8 @@ Pull in your live WordPress site via SSH (and rsync). Your webspace needs suppor
 
 **First time project setup**
 
-You as well use the [Online Generator](https://mandrasch.github.io/ddev-pull-wp-generator/).
-
 1. Copy `.ddev/example.config.yaml` to `.ddev/config.yaml`
+   (You can as well use the [Online Generator](https://mandrasch.github.io/ddev-pull-wp-generator/))
 1. Configure SSH host, user and WordPress path on server in `.ddev/config.yaml`
 1. Configure Child theme folder name in `.ddev/config.yaml` (optional)
 3. Adjust child theme folder name in `.gitignore` (optional)
@@ -75,3 +74,8 @@ Pull scripts are import steps for database and files which are stored as .yaml-f
     - you need to run 'ddev start' again afterwards
 - `ddev delete -O`
     - deletes DDEV project with database and containers (git-tracked files will be kept)
+
+### Acknowledgements
+
+- Thanks to DDEV maintainer [@randyfay](https://github.com/rfay) for helpful advice, [@dahaupt](https://github.com/dahaupt) for [advice on db] sync(https://github.com/drud/ddev/discussions/2940#discussioncomment-1665163)
+- Thanks to my colleagues at [gugler* MarkenSinn](https://www.gugler.at/markensinn) for feedback
