@@ -11,10 +11,11 @@ Status: *Work in Progress, please use with caution.*
 - ⚡️&nbsp; `ddev pull ssh` - *pull a site with just one command*<br>
 - 💾 &nbsp; `ddev pull backup` - *download and import a BackWpUp .zip-file*
 
-## Screencasts & Online Generator
+## Helpful resources
 
 - Screencasts: *coming soon*
 - Online config generator: [DDEV pull wp generator](https://mandrasch.github.io/ddev-pull-wp-generator/)
+- [DDEV discord community](https://discord.gg/kDvSFBSZfs)
 
 ## Usage
 
@@ -75,7 +76,14 @@ Pull scripts are import steps for database and files which are stored as .yaml-f
 - `ddev delete -O`
     - deletes DDEV project with database and containers (git-tracked files will be kept)
 
-### Acknowledgements
+## Acknowledgements
 
-- Thanks to DDEV maintainer [@randyfay](https://github.com/rfay) for helpful advice, [@dahaupt](https://github.com/dahaupt) for [advice on db] sync(https://github.com/drud/ddev/discussions/2940#discussioncomment-1665163)
-- Thanks to my colleagues at [gugler* MarkenSinn](https://www.gugler.at/markensinn) for feedback
+Thanks to 
+- DDEV maintainer [@randyfay](https://github.com/rfay) for helpful advice
+- [@dahaupt](https://github.com/dahaupt) for [advice on db] sync(https://github.com/drud/ddev/discussions/2940#discussioncomment-1665163),
+- all people in the WordPress & [DDEV community](https://discord.gg/kDvSFBSZfs) for sharing their knowledge online
+- my colleagues at [gugler* MarkenSinn](https://www.gugler.at/markensinn)
+
+## License
+
+My code is released as [CC0 Public Domain](https://tldrlegal.com/license/creative-commons-cc0-1.0-universal), feel free to use it with or without attribution.
