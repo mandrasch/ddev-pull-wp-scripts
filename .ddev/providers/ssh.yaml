@@ -74,14 +74,7 @@ files_pull_command:
       --exclude="README.md" \
       --exclude="LICENSE" \
       --exclude="wp-content/themes/${childThemeFolderName}" \
-      --exclude="backwup-*" \
-      --exclude="cache/" \
-      --exclude="wflogs/" \
-      --exclude="updraft/" \
-      --exclude="ai1wm-backups/" \
-      --exclude="snapshots/" \
-      --exclude="ithemes-security/" \
-      --exclude="ibackwpup-restore/" \
+      --exclude="wp-content/updraft" \
       ${sshUser}@${sshHost}:${sshWpDir} .
   service: web
 
