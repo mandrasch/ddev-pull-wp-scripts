@@ -2,6 +2,10 @@
 # - You can as well use the interactive configurator:
 #   https://mandrasch.github.io/ddev-pull-wp-generator/
 
+# ###############################################
+# #   If you change values, run 'ddev restart'  #
+# ###############################################
+
 # Local website will be available via <name>.ddev.site,
 # e.g. for this config: https://my-wp-site.ddev.site
 name: my-wp-site
@@ -20,10 +24,12 @@ web_environment:
 - CHILD_THEME_FOLDER_NAME=twentytwentyone-child
 - PRODUCTION_SSH_HOST=ssh-connect.example.org
 - PRODUCTION_SSH_USER=sshUser123
-- PRODUCTION_SSH_WP_DIR=/var/www/html/my-website.eu/
-# ##################################################
-# #   If you change values, run 'ddev restart' !!  #
-# ##################################################
+- PRODUCTION_SSH_WP_PATH=/var/www/html/my-website.eu
+# example path: PRODUCTION_SSH_WP_PATH=/var/www/html/my-website.eu
+
+# ###############################################
+# #   If you change values, run 'ddev restart'  #
+# ###############################################
 
 # Helpful advice:
 # - if you don't use a child theme currently, just keep 'twentytwentyone-child'

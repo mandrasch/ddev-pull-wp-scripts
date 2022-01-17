@@ -10,7 +10,7 @@
 environment_variables:
   sshUser: ${PRODUCTION_SSH_USER}
   sshHost: ${PRODUCTION_SSH_HOST}
-  sshWpDir: ${PRODUCTION_SSH_WP_DIR}
+  sshWpDir: ${PRODUCTION_SSH_WP_PATH}
   childThemeFolderName: ${CHILD_THEME_FOLDER_NAME} 
 
 # 1. Add ssh keys to the user agent
