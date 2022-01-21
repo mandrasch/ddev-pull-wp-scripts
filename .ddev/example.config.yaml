@@ -22,8 +22,8 @@ webserver_type: nginx-fpm
 # Variables for the pull scripts
 web_environment:
 - CHILD_THEME_FOLDER_NAME=twentytwentyone-child
-- PRODUCTION_SSH_HOST=ssh-connect.example.org
 - PRODUCTION_SSH_USER=sshUser123
+- PRODUCTION_SSH_HOST=ssh-connect.example.org
 - PRODUCTION_SSH_WP_PATH=/var/www/html/my-website.eu
 # example path, without trailing slash: /var/www/html/my-website.eu
 
