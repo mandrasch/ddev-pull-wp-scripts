@@ -101,6 +101,10 @@ Pull scripts are import steps for database and files which are stored as .yaml-f
 
 ## Troubleshooting
 
+### DDEV version correct?
+
+Please check with `ddev -v` that you are using [DDEV 1.18.2](https://github.com/drud/ddev/releases/tag/v1.18.2) or newer.
+
 ### ERR_TOO_MANY_REDIRECTS (apache)
 
 If .htaccess has a https-only rule with something like 'RewriteCond %{HTTPS} !=on', it will result in 'ERR_TOO_MANY_REDIRECTS'. Just remove these rules from .htaccess. https://twitter.com/m_andrasch/status/1481290725694349316
