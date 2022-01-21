@@ -1,0 +1,3 @@
+#!/bin/bash
+# connect to ssh production server, download child theme
+

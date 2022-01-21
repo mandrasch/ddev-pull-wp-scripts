@@ -28,10 +28,21 @@ Pull in your live WordPress site via SSH (and rsync). Your webspace needs suppor
 1. Copy `.ddev/example.config.yaml` to `.ddev/config.yaml`
    (You can as well use the [Online Generator](https://mandrasch.github.io/ddev-pull-wp-generator/))
 1. Configure SSH host, user and WordPress path on server in `.ddev/config.yaml`
-1. (optional) Configure Child theme folder name in `.ddev/config.yaml` 
-1. (optional) Adjust child theme folder name in `.gitignore` (optional)
-1. (optional) Download your current child theme to the repository (use [plugin](https://de.wordpress.org/plugins/download-plugins-dashboard/))
-1. Run `ddev start` and `ddev auth ssh`
+1. Run `ddev start`
+1. Run `ddev auth ssh`
+1. Test ssh connection with `ddev ssh production'` (custom command), use `exit` to leave ssh terminal afterwards. Make sure there is no message `No such file or directory` and use `pwd` to check, that you're in the correct directory.
+
+Nice! You ready to pull!
+
+**(Optional) Child theme setup**
+
+*Skip these steps, if you don't have a child theme on your live site which you want to manage via git*
+
+1. Configure Child theme folder name in `.ddev/config.yaml` 
+1. Run `ddev restart`
+1. Adjust child theme folder name in `.gitignore`
+1. Download your current child theme to the repository (use the custom command `ddev ssh-production-download-child-theme` or use [plugin](https://de.wordpress.org/plugins/download-plugins-dashboard/), now you can git manage it. 
+1. For pushing it see [WPPusher - Github Install Theme documentation](https://docs.wppusher.com/article/17-setting-up-a-plugin-or-theme-on-github)
 
 **Pull in your latest site content**
 
@@ -42,6 +53,9 @@ That's it, run `ddev launch` to open your site in the web browser. If you experi
 Source code: [.ddev/providers/ssh.yaml](https://github.com/mandrasch/ddev-pull-wp-scripts/blob/main/.ddev/providers/ssh.yaml)
 
 If you want to clean and delete all pulled filles, you can use `git clean -fdx -e .ddev`. 
+
+
+
 
 ## 💾 &nbsp;ddev pull backup
 

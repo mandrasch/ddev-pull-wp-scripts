@@ -12,12 +12,13 @@
 !/.ddev
 /.ddev/*
 
-# track DDEV config example
-!/.ddev/example.config.yaml
-
 # track DDEV config 
 # - uncomment to enable (recommended):
 # !/.ddev/config.yaml
+
+
+# track DDEV config example
+!/.ddev/example.config.yaml
 
 # track DDEV providers scripts
 !/.ddev/providers
@@ -31,6 +32,14 @@
 !/wp-content/themes
 /wp-content/themes/*
 !/wp-content/themes/twentytwentyone-child
+
+# track command to connect to ssh
+!/.ddev/commands
+/.ddev/commands/*
+!/.ddev/commands/web
+/.ddev/commands/web/*
+!/.ddev/commands/web/ssh-production
+!/.ddev/commands/web/ssh-production-download-child-theme
 
 # For more info about this gitignore-pattern, see e.g.:
 # https://stackoverflow.com/a/29012085/809939)

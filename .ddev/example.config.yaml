@@ -25,7 +25,7 @@ web_environment:
 - PRODUCTION_SSH_HOST=ssh-connect.example.org
 - PRODUCTION_SSH_USER=sshUser123
 - PRODUCTION_SSH_WP_PATH=/var/www/html/my-website.eu
-# example path: PRODUCTION_SSH_WP_PATH=/var/www/html/my-website.eu
+# example path, without trailing slash: /var/www/html/my-website.eu
 
 # ###############################################
 # #   If you change values, run 'ddev restart'  #
