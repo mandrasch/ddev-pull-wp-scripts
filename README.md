@@ -14,7 +14,7 @@ Status: *Work in Progress, please use with caution.*
 ## Helpful resources
 
 - Screencasts: *coming soon*
-- Online config generator: [DDEV pull wp generator](https://mandrasch.github.io/ddev-pull-wp-generator/)
+- Online config generator: [DDEV pull wp generator](https://mandrasch.github.io/ddev-pull-wp-generator/), [GitHub](https://github.com/mandrasch/ddev-pull-wp-generator/)
 - [DDEV discord community](https://discord.gg/kDvSFBSZfs)
 
 ## Usage
