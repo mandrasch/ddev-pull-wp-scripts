@@ -13,7 +13,7 @@ Status: *Work in Progress, please use with caution.*
 
 ## Helpful resources
 
-- Screencasts: *coming soon*
+- Screencasts: [ddev pull ssh](https://www.youtube.com/watch?v=lEGL65H-hts)
 - Online config generator: [DDEV pull wp generator](https://mandrasch.github.io/ddev-pull-wp-generator/), [GitHub](https://github.com/mandrasch/ddev-pull-wp-generator/)
 - [DDEV discord community](https://discord.gg/kDvSFBSZfs)
 
