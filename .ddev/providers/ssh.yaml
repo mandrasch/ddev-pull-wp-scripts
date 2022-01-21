@@ -98,10 +98,18 @@ files_import_command:
     echo "Replacing the old URL ($(wp option get siteurl)) in database with DDEV local url (${DDEV_PRIMARY_URL})..."
     wp search-replace $(wp option get siteurl) "${DDEV_PRIMARY_URL}"
 
+    # Additional update the wp config values, because some devs/hoster, e.g. raidboxes
+    # put it here (only remove if existent)
+    # TODO: if [wp config has] would be better, but how to implement it here?
+    # if [ "$(wp config has WP_HOME)" = 0 ]; then wp config delete WP_HOME; fi
+    # if [ "$(wp config has WP_SITEURL)" = 1 ]; then wp config delete WP_SITEURL; fi
+    wp config set WP_HOME "${DDEV_PRIMARY_URL}"
+    wp config set WP_SITEURL "${DDEV_PRIMARY_URL}/"
+
     # Optional: more steps would be possible here after import
     # echo "Deleting config path for WP Super Cache (if installed) ..."
     # wp config delete WPCACHEHOME
-    
+
     echo "All set, have fun! Run 'ddev launch' to open your site."
   service: web
 
