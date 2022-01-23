@@ -13,8 +13,8 @@ Status: *Work in Progress, please use with caution.*
 
 ## Helpful resources
 
-- Screencasts: *coming soon*
-- Online config generator: [DDEV pull wp generator](https://mandrasch.github.io/ddev-pull-wp-generator/), [GitHub](https://github.com/mandrasch/ddev-pull-wp-generator/)
+- Online config generator: [DDEV pull wp generator](https://mandrasch.github.io/ddev-pull-wp-generator/) ([Source code](https://github.com/mandrasch/ddev-pull-wp-generator/))
+- 🎥  Screencasts: [ddev pull ssh](https://www.youtube.com/watch?v=lEGL65H-hts)
 - [DDEV discord community](https://discord.gg/kDvSFBSZfs)
 
 ## Usage
