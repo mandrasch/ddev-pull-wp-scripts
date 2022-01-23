@@ -54,7 +54,9 @@ Source code: [.ddev/providers/ssh.yaml](https://github.com/mandrasch/ddev-pull-w
 
 If you want to clean and delete all pulled filles, you can use `git clean -fdx -e .ddev`. 
 
+**Technical concept**
 
+![](README_ddev_pull_ssh.png)
 
 
 ## 💾 &nbsp;ddev pull backup

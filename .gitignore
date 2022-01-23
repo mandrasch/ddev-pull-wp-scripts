@@ -6,6 +6,7 @@
 # track general files
 !/.gitignore
 !/README.md
+!/README_ddev_pull_ssh.png
 !/LICENSE
 
 # track some files and folders in DDEV
