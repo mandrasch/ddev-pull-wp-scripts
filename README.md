@@ -111,6 +111,10 @@ Please check with `ddev -v` that you are using [DDEV 1.18.2](https://github.com/
 
 If .htaccess has a https-only rule with something like 'RewriteCond %{HTTPS} !=on', it will result in 'ERR_TOO_MANY_REDIRECTS'. Just remove these rules from .htaccess. https://twitter.com/m_andrasch/status/1481290725694349316
 
+## TODOs
+
+- [ ] SSH: Command for checking of availability of WP-CLI fails, just use `mysqldump` as default and optional config param to enable WP-CLI?
+
 ## Acknowledgements
 
 Thanks to 
