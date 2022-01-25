@@ -120,7 +120,7 @@ If .htaccess has a https-only rule with something like 'RewriteCond %{HTTPS} !=o
 Thanks to 
 - DDEV maintainer [@randyfay](https://github.com/rfay) for helpful advice
 - [@dahaupt](https://github.com/dahaupt) for awesome [advice on db sync](https://github.com/drud/ddev/discussions/2940#discussioncomment-1665163),
-- [BokuNoMaxi](https://github.com/BokuNoMaxi) for testing and collaboration on this
+- [@BokuNoMaxi](https://github.com/BokuNoMaxi) for testing and collaboration on this
 - All people in the WordPress & [DDEV community](https://discord.gg/kDvSFBSZfs) for sharing their knowledge online
 - My colleagues at [gugler* MarkenSinn](https://www.gugler.at/markensinn).
 ## License
