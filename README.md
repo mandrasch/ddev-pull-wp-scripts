@@ -21,7 +21,7 @@ Status: *Work in Progress, please use with caution.*
 
 ## ⚡️&nbsp;  ddev pull ssh
 
-Pull in your live WordPress site via SSH (and rsync). Your webspace needs support for WP-CLI or mysqldump, you need to be able to connect to your SSH webspace via SSH key authentication (without password).
+Pull in your live WordPress site via SSH (and rsync). Your webspace needs support for mysqldump and you need to be able to connect to your SSH webspace via SSH key authentication (without password).
 
 **First time project setup**
 
@@ -114,6 +114,7 @@ If .htaccess has a https-only rule with something like 'RewriteCond %{HTTPS} !=o
 ## TODOs
 
 - [ ] SSH: Command for checking of availability of WP-CLI fails, just use `mysqldump` as default and optional config param to enable WP-CLI?
+- [ ] Test SSH with password-based auth, should be working as well?
 
 ## Acknowledgements
 
