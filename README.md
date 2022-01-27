@@ -111,14 +111,18 @@ Please check with `ddev -v` that you are using [DDEV 1.18.2](https://github.com/
 
 If .htaccess has a https-only rule with something like 'RewriteCond %{HTTPS} !=on', it will result in 'ERR_TOO_MANY_REDIRECTS'. Just remove these rules from .htaccess. https://twitter.com/m_andrasch/status/1481290725694349316
 
+## TODOs
+
+- [ ] SSH: Command for checking of availability of WP-CLI fails, just use `mysqldump` as default and optional config param to enable WP-CLI?
+
 ## Acknowledgements
 
 Thanks to 
 - DDEV maintainer [@randyfay](https://github.com/rfay) for helpful advice
-- [@dahaupt](https://github.com/dahaupt) for [advice on db sync](https://github.com/drud/ddev/discussions/2940#discussioncomment-1665163),
-- all people in the WordPress & [DDEV community](https://discord.gg/kDvSFBSZfs) for sharing their knowledge online
-- my colleagues at [gugler* MarkenSinn](https://www.gugler.at/markensinn)
-
+- [@dahaupt](https://github.com/dahaupt) for awesome [advice on db sync](https://github.com/drud/ddev/discussions/2940#discussioncomment-1665163),
+- [@BokuNoMaxi](https://github.com/BokuNoMaxi) for testing and collaboration on this
+- All people in the WordPress & [DDEV community](https://discord.gg/kDvSFBSZfs) for sharing their knowledge online
+- My colleagues at [gugler* MarkenSinn](https://www.gugler.at/markensinn).
 ## License
 
 My code is released as [CC0 Public Domain](https://tldrlegal.com/license/creative-commons-cc0-1.0-universal), feel free to use it with or without attribution.
