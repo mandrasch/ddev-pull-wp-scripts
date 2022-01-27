@@ -92,14 +92,14 @@ Pull scripts are import steps for database and files which are stored as .yaml-f
 
 ### Reset / delete
 
-- `git clean -fdx -e .ddev`
-    - removes all untracked files and directories, but without deleting the DDEV folder
+- delete pulled files: `git clean -fdx -e .ddev`
+    - removes all untracked files and directories (pulled files), but without deleting the DDEV folder
+- reset DDEV project: `ddev delete -O`
+    - deletes DDEV project with database and containers (files will be kept)
 - `git clean -fdx`
     - removes all untracked files and directories
-    - if .ddev/config.yaml is untracked, it will be removed as well
-    - you need to run 'ddev start' again afterwards
-- `ddev delete -O`
-    - deletes DDEV project with database and containers (git-tracked files will be kept)
+    - if .ddev/config.yaml is untracked in git, it will be removed as well (!)
+    - you need to run 'ddev start' again afterwards to init
 
 ## Troubleshooting
 
@@ -107,15 +107,35 @@ Pull scripts are import steps for database and files which are stored as .yaml-f
 
 Please check with `ddev -v` that you are using [DDEV 1.18.2](https://github.com/drud/ddev/releases/tag/v1.18.2) or newer.
 
+### Database dump doesn't work?
+
+If you use double quotes or single + double quotes mixed in wp-config.php, the script can't figure out the database credentials.
+
+Bad: `define('DB_NAME', "db75994");`
+Good - use only single quotes: `define('DB_NAME', 'db75994');`
+
 ### ERR_TOO_MANY_REDIRECTS (apache)
 
 If .htaccess has a https-only rule with something like 'RewriteCond %{HTTPS} !=on', it will result in 'ERR_TOO_MANY_REDIRECTS'. Just remove these rules from .htaccess. https://twitter.com/m_andrasch/status/1481290725694349316
+
+### WP Super Cache
+
+```
+/wp-super-cache/wp-cache-base.php): failed to open stream: No such file or directory in /var/www/html/wp-content/plugins/wp-super-cache/wp-cache.php on line 99`
+Warning: include_once(/home/sites/site100026635/web/matthias-andrasch.eu/blog/wp-content/plugins/wp-super-cache/wp-cache-phase1.php): failed to open stream: No such file or directory in /var/www/html/wp-content/advanced-cache.php on line 22
+```
+Just login into wp-admin/-dashboard, WP Super Cache will repair the path or remove the `define('WPCACHEHOME',..` line from pulled wp-config.php manually after import. 
+
+### Emojis get lost after import and are replaced with ???? (MariaDB charset)
+
+In one case adding `--default-character-set=utf8mb4` (https://stackoverflow.com/a/45301470/809939) to the mysql command was the solution. But on the live site `define('DB_CHARSET', 'utf8mb4');` was explicitely set. Wordpress docs state that this setting may be not existent in wp-config.php, so we can only conditional in wp-config.php if it is set (See: https://wordpress.org/support/article/editing-wp-config-php/#database-character-set). Hoster raidboxes uses `define('DB_CHARSET','utf8');`.
 
 ## TODOs
 
 - [ ] SSH: Command for checking of availability of WP-CLI fails, just use `mysqldump` as default and optional config param to enable WP-CLI?
 - [ ] Test SSH with password-based auth, should be working as well?
-
+- [ ] Only single quotes are currently support with getting db values via bash (because of cut -d = delimiter is `'`)
+- [ ] Test emoji problems: Use demo content with emojis
 ## Acknowledgements
 
 Thanks to 

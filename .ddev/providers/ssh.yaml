@@ -12,7 +12,7 @@ environment_variables:
   sshHost: ${PRODUCTION_SSH_HOST}
   sshWpPath: ${PRODUCTION_SSH_WP_PATH}
   childThemeFolderName: ${CHILD_THEME_FOLDER_NAME} 
-
+  remoteDbCharset: ${REMOTE_DB_CHARSET}
 # 1. Add ssh keys to the user agent
 auth_command:
   command: |
@@ -37,10 +37,15 @@ db_pull_command:
     # Important: Use backslash for mysqldump values, thanks to https://stackoverflow.com/a/13826220
 
     ssh ${sshUser}@${sshHost} "cd ${sshWpPath} && mysqldump \
+      --default-character-set=${REMOTE_DB_CHARSET} \
       --user=\$(cat wp-config.php | grep DB_USER | cut -d \' -f 4) \
       --password=\$(cat wp-config.php | grep DB_PASSWORD | cut -d \' -f 4) \
       --host=\$(cat wp-config.php | grep DB_HOST | cut -d \' -f 4) \
       \$(cat wp-config.php | grep DB_NAME | cut -d \' -f 4) | gzip -9 -c" > .ddev/.downloads/db.sql.gz
+    
+    # TODO: add warning if values come up empty ... (How can this be checked in a robust way?)
+    # TODO: handle other charsets then default 'utf8' via --default-character-set=utf8mb4, see README
+    # TODO: add solution for use of double quotes / single quotes / mixed quotes (e.g. define('DB_HOST', "mysql03.host.net");)
 
   service: web
 
