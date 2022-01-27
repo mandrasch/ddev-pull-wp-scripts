@@ -114,11 +114,13 @@ If you use double quotes or single + double quotes mixed in wp-config.php, the s
 Bad: `define('DB_NAME', "db75994");`
 Good - use only single quotes: `define('DB_NAME', 'db75994');`
 
+(Debug this with a) connect to ssh `ddev ssh-production` and b) run `echo (cat wp-config.php | grep DB_NAME | cut -d \' -f 4)`, if this output is empty the bash parsing doesn't work properly for your site.) 
+
 ### ERR_TOO_MANY_REDIRECTS (apache)
 
 If .htaccess has a https-only rule with something like 'RewriteCond %{HTTPS} !=on', it will result in 'ERR_TOO_MANY_REDIRECTS'. Just remove these rules from .htaccess. https://twitter.com/m_andrasch/status/1481290725694349316
 
-### WP Super Cache
+### WP Super Cache warnings
 
 ```
 /wp-super-cache/wp-cache-base.php): failed to open stream: No such file or directory in /var/www/html/wp-content/plugins/wp-super-cache/wp-cache.php on line 99`
@@ -126,9 +128,11 @@ Warning: include_once(/home/sites/site100026635/web/matthias-andrasch.eu/blog/wp
 ```
 Just login into wp-admin/-dashboard, WP Super Cache will repair the path or remove the `define('WPCACHEHOME',..` line from pulled wp-config.php manually after import. 
 
-### Emojis get lost after import and are replaced with ???? (MariaDB charset)
+### Emojis get lost after import and are replaced with ????
 
-In one case adding `--default-character-set=utf8mb4` (https://stackoverflow.com/a/45301470/809939) to the mysql command was the solution. But on the live site `define('DB_CHARSET', 'utf8mb4');` was explicitely set. Wordpress docs state that this setting may be not existent in wp-config.php, so we can only conditional in wp-config.php if it is set (See: https://wordpress.org/support/article/editing-wp-config-php/#database-character-set). Hoster raidboxes uses `define('DB_CHARSET','utf8');`.
+This is a charset issue I wasn't able to fix automatically yet. Please check your live sites `wp-config.php` and look for `DB_CHARSET`. Set this value in config.yaml for `REMOTE_DB_CHARSET=`, run `ddev restart` and pull via ssh again (`ddev pull ssh`).
+
+(Technical infos: It is related to DB_CHARSET set to something other than default 'utf8' in wp-config.php. For utf8mb4 the export needs to done with `mysqldump --default-character-set=utf8mb4` to be correct (https://stackoverflow.com/a/45301470/809939). But WordPress docs state DB_CHARSET setting may be not existent in wp-config.php, so we can't just read it from wp-config.php via bash, needs to be a conditional bash parsing from wp-config.php (See: https://wordpress.org/support/article/editing-wp-config-php/#database-character-set).)
 
 ## TODOs
 
@@ -144,6 +148,7 @@ Thanks to
 - [@BokuNoMaxi](https://github.com/BokuNoMaxi) for testing and collaboration on this
 - All people in the WordPress & [DDEV community](https://discord.gg/kDvSFBSZfs) for sharing their knowledge online
 - My colleagues at [gugler* MarkenSinn](https://www.gugler.at/markensinn).
+
 ## License
 
 My code is released as [CC0 Public Domain](https://tldrlegal.com/license/creative-commons-cc0-1.0-universal), feel free to use it with or without attribution.
