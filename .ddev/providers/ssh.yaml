@@ -65,7 +65,7 @@ files_pull_command:
     # exclude child theme + some default locations of wordpress backup plugins
     # (exclude pattern is glob based, not path based)
     # add -v for output of files transferred, -vv for full debug
-    rsync -azhv --stats \
+    rsync -azh --stats \
       --exclude=".git/" \
       --exclude=".gitignore" \
       --exclude=".ddev/" \
