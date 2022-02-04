@@ -1,0 +1,35 @@
+# Example DDEV project configuration
+# - You can as well use the interactive configurator:
+#   https://mandrasch.github.io/ddev-pull-wp-generator/
+
+# All options: https://ddev.readthedocs.io/en/stable/users/extend/config_yaml/
+
+# Example DDEV project configuration
+# - You can as well use the interactive configurator:
+#   https://mandrasch.github.io/ddev-pull-wp-generator/
+
+# Local website will be available via <name>.ddev.site,
+# e.g. for this config: https://my-wp-site.ddev.site
+name: my-wp-nature-blog
+type: wordpress
+docroot: ""
+
+# WebServer settings
+php_version: "7.4"
+mariadb_version: "10.3"
+webserver_type: nginx-fpm
+
+# Variables for the pull scripts
+web_environment:
+- CHILD_THEME_FOLDER_NAME=twentytwentyone-child
+- PRODUCTION_SSH_USER=ssh300001432
+- PRODUCTION_SSH_HOST=ngcobalt384.manitu.net
+- PRODUCTION_SSH_WP_PATH=/home/sites/site100026635/web/nature-blog.mandrasch.eu
+- REMOTE_DB_CHARSET=utf8
+# ##################################################
+# #   If you change values, run 'ddev restart' !!  #
+# ##################################################
+
+# Helpful advice:
+# - if you don't use a child theme currently, just keep 'twentytwentyone-child'
+# - if you don't want to use 'wp pull ssh', just keep the default values

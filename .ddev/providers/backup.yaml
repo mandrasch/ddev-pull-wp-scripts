@@ -12,7 +12,7 @@
 
 environment_variables:
   backupfile: backup.zip # needs to be in docroot (your project folder)
-  childThemeFolderName: ${CHILD_THEME_FOLDER_NAME} # from .ddev/config.yaml
+  childThemeFolderName: "twentytwentyone-child"
 
 # - This step unzips the sql file from backup and generates a .sql.gz file,
 #   which DDEV imports automatically (via standard db_import_command).

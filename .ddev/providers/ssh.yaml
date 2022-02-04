@@ -95,13 +95,11 @@ files_pull_command:
       --exclude=".ddev/" \
       --exclude="README.md" \
       --exclude="LICENSE" \
+      --exclude="wp-content/themes/${childThemeFolderName}" \
       --exclude="wp-content/updraft" \
       ${sshUser}@${sshHost}:${sshWpPathTrailingSlash} .
 
     # TODO: Should we use -a (archive mode) or is there a better combination of flags?
-
-    # (Use this if you want to exclude child theme:
-    #   --exclude="wp-content/themes/${childThemeFolderName}" \
   service: web
 
 # 4. Set database connection + migrate URLs in DB

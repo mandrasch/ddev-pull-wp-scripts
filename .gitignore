@@ -1,47 +1,40 @@
-# Ignore all ... (relative from docroot, not via glob)
+# Ignore all ...
 /*
 
-# ... BUT track specific files and folders: 
+# ... but track specific files / folders: 
 
-# track general files
-!/.gitignore
+# General files
+!.gitignore
 !/README.md
-!/README_ddev_pull_ssh.png
-!/README_experimental.md
 !/LICENSE
 
-# track some files and folders in DDEV
+# DDEV config and provider script
 !/.ddev
 /.ddev/*
-
-# track DDEV config 
-# - uncomment to enable (recommended):
-# !/.ddev/config.yaml
-
-
-# track DDEV config example
-!/.ddev/example.config.yaml
-
-# track DDEV providers scripts
+!/.ddev/config.yaml
 !/.ddev/providers
 /.ddev/providers/*
 !/.ddev/providers/ssh.yaml
-!/.ddev/providers/backup.yaml
 
-# track WordPress child theme
+# Child theme:
 !/wp-content
 /wp-content/*
 !/wp-content/themes
 /wp-content/themes/*
 !/wp-content/themes/twentytwentyone-child
 
-# track command to connect to ssh
+# ----------------------------------------------
+# Special files for ddev-pull-wp-scripts repo
+# (if you clone this repo, you can delete them if not needed)
+!/README_ddev_pull_ssh.png
+!/README_experimental.md
+
+# track command to connect to ssh (experimental, needs more work)
 !/.ddev/commands
 /.ddev/commands/*
 !/.ddev/commands/web
 /.ddev/commands/web/*
-!/.ddev/commands/web/ssh-production
-!/.ddev/commands/web/ssh-production-download-child-theme
+!/.ddev/commands/web/ssh-remote
 
 # For more info about this gitignore-pattern, see e.g.:
 # https://stackoverflow.com/a/29012085/809939)

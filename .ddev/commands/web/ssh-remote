@@ -1,0 +1,9 @@
+#!/bin/bash
+# connect to ssh production server and change to wp folder
+# Thx to @BokuNoMaxi and https://serverfault.com/a/738797
+
+sshUser=wp
+sshHost=ba8v2nc.myraidbox.de
+sshWpPath=/home/wp/disk/wordpress
+
+ssh -t $sshUser@$sshHost "cd ${sshWpPath}; exec \$SHELL --login"

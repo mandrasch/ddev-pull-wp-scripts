@@ -25,24 +25,14 @@ Pull in your live WordPress site via SSH (and rsync). Your webspace needs suppor
 
 **First time project setup**
 
-1. Copy `.ddev/example.config.yaml` to `.ddev/config.yaml`
-   (You can as well use the [Online Generator](https://mandrasch.github.io/ddev-pull-wp-generator/))
-1. Configure SSH host, user and WordPress path on server in `.ddev/config.yaml`
+You can as use the [Online Generator](https://mandrasch.github.io/ddev-pull-wp-generator/) or the manual approach:
+
+1. Adjust `.ddev/config.yaml` for your needs
+1. Configure `.ddev/providers/ssh.yaml` (SSH host, user and WordPress path on server)
 1. Run `ddev start`
 1. Run `ddev auth ssh`
-1. Test ssh connection with `ddev ssh production'` (custom command), use `exit` to leave ssh terminal afterwards. Make sure there is no message `No such file or directory` and use `pwd` to check, that you're in the correct directory.
 
 Nice! You ready to pull!
-
-**(Optional) Child theme setup**
-
-*Skip these steps, if you don't have a child theme on your live site which you want to manage via git*
-
-1. Configure Child theme folder name in `.ddev/config.yaml` 
-1. Run `ddev restart`
-1. Adjust child theme folder name in `.gitignore`
-1. Download your current child theme to the repository (use the custom command `ddev ssh-production-download-child-theme` or use [plugin](https://de.wordpress.org/plugins/download-plugins-dashboard/), now you can git manage it. 
-1. For pushing it see [WPPusher - Github Install Theme documentation](https://docs.wppusher.com/article/17-setting-up-a-plugin-or-theme-on-github)
 
 **Pull in your latest site content**
 
@@ -55,9 +45,15 @@ Source code: [.ddev/providers/ssh.yaml](https://github.com/mandrasch/ddev-pull-w
 If you want to clean and delete all pulled filles, you can use `git clean -fdx -e .ddev`. 
 
 **Technical concept**
+<div style="display:none;">![](README_ddev_pull_ssh.png)</div>
 
-![](README_ddev_pull_ssh.png)
+**Pull your child theme (Experimental!)**
 
+Use with caution, rsync can overwrite files! Always backup your site!
+
+- Run `ddev push ssh --skip-db`
+
+This will push your child theme folder to the remote site you already configured for the pull. Currently rsync is configured without `--delete`-flag, therefore no files will be deleted on remote.
 
 ## 💾 &nbsp;ddev pull backup
 
@@ -130,13 +126,12 @@ Just login into wp-admin/-dashboard, WP Super Cache will repair the path or remo
 
 ### Emojis get lost after import and are replaced with ????
 
-This is a charset issue I wasn't able to fix automatically yet. Please check your live sites `wp-config.php` and look for `DB_CHARSET`. Set this value in config.yaml for `REMOTE_DB_CHARSET=`, run `ddev restart` and pull via ssh again (`ddev pull ssh`).
+This is a charset issue I wasn't able to fix automatically yet. Please check your live sites `wp-config.php` and look for `DB_CHARSET`. Set this value in ssh.yaml for `REMOTE_DB_CHARSET=` and pull via ssh again (`ddev pull ssh`).
 
 (Technical infos: It is related to DB_CHARSET set to something other than default 'utf8' in wp-config.php. For utf8mb4 the export needs to done with `mysqldump --default-character-set=utf8mb4` to be correct (https://stackoverflow.com/a/45301470/809939). But WordPress docs state DB_CHARSET setting may be not existent in wp-config.php, so we can't just read it from wp-config.php via bash, needs to be a conditional bash parsing from wp-config.php (See: https://wordpress.org/support/article/editing-wp-config-php/#database-character-set).)
 
 ## TODOs
 
-- [ ] Add support for 'ddev push child-theme'
 - [ ] Use "- REMOTE_DB_CHARSET=utf8" as optional parameter, only use it in provider script if it is set
 - [ ] Test SSH with password-based auth, should be working as well?
 - [ ] Only single quotes are currently support with getting db values via bash (because of cut -d = delimiter is `'`)

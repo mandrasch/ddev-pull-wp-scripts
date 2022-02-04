@@ -1,4 +1,0 @@
-#!/bin/bash
-# connect to ssh production server and change to wp folder
-# Thanks Markus and thanks to https://serverfault.com/a/738797
-ssh -t $PRODUCTION_SSH_USER@$PRODUCTION_SSH_HOST "cd ${PRODUCTION_SSH_WP_PATH}; exec \$SHELL --login"
