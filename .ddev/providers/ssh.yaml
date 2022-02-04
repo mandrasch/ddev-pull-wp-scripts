@@ -1,18 +1,38 @@
-# Pull a live site into DDEV
+# Pull a live site WordPress site into DDEV
 
-# This pulls a live wordpress site via SSH, 
-# WP-CLI (or mysqldump) and rsync into DDEV
+# 'ddev pull ssh' - pulls a live wordpress site via SSH/mysqldump and rsync into DDEV.
+# 'ddev push ssh' - pushes the child theme files to the remote server
+# Project repository: https://github.com/mandrasch/ddev-pull-wp-scripts
 
 # Requires DDEV version >= 1.18.2 !
-# (https://github.com/drud/ddev/releases/tag/v1.18.2)
+# https://github.com/drud/ddev/releases/tag/v1.18.2
+# https://ddev.readthedocs.io/en/stable/users/providers/provider-introduction/
 
-# Variables retrieved from .ddev/config.yaml -> web_enviroment=[]
+
+# ------------------------------   configuration  ---------------------------------------------
+
 environment_variables:
-  sshUser: ${PRODUCTION_SSH_USER}
-  sshHost: ${PRODUCTION_SSH_HOST}
-  sshWpPath: ${PRODUCTION_SSH_WP_PATH}
-  childThemeFolderName: ${CHILD_THEME_FOLDER_NAME} 
-  remoteDbCharset: ${REMOTE_DB_CHARSET}
+  sshUser: sshUser123
+  sshHost: ssh.example.org
+  sshWpPath: /home/sites/blog.example.org
+  # path to wordpress on ssh server without(!) trailing slash, 
+  # e.g.: /var/www/html/my-website.eu
+  
+  childThemeFolderName: twentytwentyone-child
+  # just the folder name in wp-content/themes/, no slashes
+  # if you don't use a child theme currently, just leave 'twentytwentyone-child'
+  
+  remoteDbCharset: utf8
+  # utf8 is default, but check DB_CHARSET in your live sites wp-config.php 
+  # if you have trouble importing (e.g. emojis get lost)
+
+# -----------------------------  eo configuration  -------------------------------------------
+
+
+# -----------------------------   provider script  -------------------------------------------
+# -            (Update the following code if ddev-pull-wp-scripts gets an update)            -
+# --------------------------------------------------------------------------------------------
+
 # 1. Add ssh keys to the user agent
 auth_command:
   command: |
@@ -32,9 +52,9 @@ db_pull_command:
     set -eu -o pipefail
     pushd "/var/www/html/${DDEV_DOCROOT}" >/dev/null
 
-    # Database dump via mysqldump on remote, db connection credentials are parsed from live sites 
-    # wp-config.php via bash on remote server (https://tomjn.com/2014/03/01/wordpress-bash-magic/),
-    # Important: Use backslash for mysqldump values, thanks to https://stackoverflow.com/a/13826220
+    # Database dump via mysqldump on remote
+    # db connection credentials are parsed from live sites wp-config.php via bash
+    # see https://tomjn.com/2014/03/01/wordpress-bash-magic/
 
     ssh ${sshUser}@${sshHost} "cd ${sshWpPath} && mysqldump \
       --default-character-set=${REMOTE_DB_CHARSET} \
@@ -43,10 +63,13 @@ db_pull_command:
       --host=\$(cat wp-config.php | grep DB_HOST | cut -d \' -f 4) \
       \$(cat wp-config.php | grep DB_NAME | cut -d \' -f 4) | gzip -9 -c" > .ddev/.downloads/db.sql.gz
     
-    # TODO: add warning if values come up empty ... (How can this be checked in a robust way?)
-    # TODO: handle other charsets then default 'utf8' via --default-character-set=utf8mb4, see README
-    # TODO: add solution for use of double quotes / single quotes / mixed quotes (e.g. define('DB_HOST', "mysql03.host.net");)
+    # TODO: add warning if wp-config.php parsing fails ... (How can this be checked in a robust way?)
 
+    # TODO: add solution for use of double quotes / single quotes / mixed quotes in wp-config.php
+    #       (e.g. define('DB_HOST', "mysql03.host.net");)
+    # Currently only single quotes are supported
+
+    # (Important: backslash for mysqldump values, thx to https://stackoverflow.com/a/13826220)
   service: web
 
 # 3. Rsync all the files (except excludes)
@@ -57,9 +80,9 @@ files_pull_command:
     ls /var/www/html/.ddev >/dev/null 
     pushd /var/www/html/${DDEV_DOCROOT} >/dev/null
 
-    # Add trailing slash for sshWpPath if missing, 
+    # Add trailing slash for sshWpPath (maybe user mistakenly provided trailing slash) 
     # (thx https://gist.github.com/luciomartinez/c322327605d40f86ee0c)
-    [[ "${sshWpPath}" != */ ]] && sshWpPath="${sshWpPath}/"
+    [[ "${sshWpPath}" != */ ]] && sshWpPathTrailingSlash="${sshWpPath}/"
 
     echo "Downloading files from remote site, except child theme folder ${childThemeFolderName} ..."
     # exclude child theme + some default locations of wordpress backup plugins
@@ -73,7 +96,7 @@ files_pull_command:
       --exclude="LICENSE" \
       --exclude="wp-content/themes/${childThemeFolderName}" \
       --exclude="wp-content/updraft" \
-      ${sshUser}@${sshHost}:${sshWpPath} .
+      ${sshUser}@${sshHost}:${sshWpPathTrailingSlash} .
   service: web
 
 # 4. Set database connection + migrate URLs in DB
@@ -111,3 +134,31 @@ files_import_command:
     echo "All set, have fun! Run 'ddev launch' to open your site."
   service: web
 
+# ! EXPERIMENTAL !
+# Push child theme to remove server
+
+db_push_command:
+  command: |
+    # set -x   # You can enable bash debugging output by uncommenting
+    set -eu -o pipefail
+    echo "Skipping db_push_command, we don't use it."
+
+files_push_command:
+  command: |
+    # set -x   # You can enable bash debugging output by uncommenting
+    set -eu -o pipefail
+    pushd "/var/www/html/${DDEV_DOCROOT}" >/dev/null
+
+    # Add trailing slash for sshWpPath (maybe user mistakenly provided trailing slash) 
+    # (thx https://gist.github.com/luciomartinez/c322327605d40f86ee0c)
+    [[ "${sshWpPath}" != */ ]] && sshWpPathTrailingSlash="${sshWpPath}/"
+
+    # Send child theme from source (DDEV) to target (SSH server / webspace)
+    source=./wp-content/themes/${childThemeFolderName}
+    target=${sshUser}@${sshHost}:${sshWpPathTrailingSlash}wp-content/themes/${childThemeFolderName}/
+  
+    echo "Pushing child theme to remote server ..."
+    echo "Source: ${source}"
+    echo "Target: ${target}"
+    
+    # rsync -avzh --stats ${source} ${target}

@@ -136,10 +136,12 @@ This is a charset issue I wasn't able to fix automatically yet. Please check you
 
 ## TODOs
 
+- [ ] Add support for 'ddev push child-theme'
 - [ ] Use "- REMOTE_DB_CHARSET=utf8" as optional parameter, only use it in provider script if it is set
 - [ ] Test SSH with password-based auth, should be working as well?
 - [ ] Only single quotes are currently support with getting db values via bash (because of cut -d = delimiter is `'`)
 - [ ] PHP 8.1 support? WP-CLI threw some errors, maybe fixed in new release? https://make.wordpress.org/cli/2022/01/26/wp-cli-v2-6-0-release-notes/
+- [ ] Find out how to integrate https://git-updater.com/ within this workflow (See: https://github.com/afragen/git-updater/issues/716)
 
 ## Acknowledgements
 
