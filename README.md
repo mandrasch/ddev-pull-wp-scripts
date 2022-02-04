@@ -8,7 +8,7 @@ Status: *Work in Progress, please use with caution.*
 
 ## Scripts
 
-- ⚡️&nbsp; `ddev pull ssh` - *pull a site with just one command*<br>
+- ⚡️&nbsp; `ddev pull ssh` - *pull a site with just one command*<br> (experimental) ⚡️&nbsp; `ddev push ssh --skip-db` - *push the child theme*<br><br>
 - 💾 &nbsp; `ddev pull backup` - *download and import a BackWpUp .zip-file*
 
 ## Helpful resources
@@ -44,16 +44,15 @@ Source code: [.ddev/providers/ssh.yaml](https://github.com/mandrasch/ddev-pull-w
 
 If you want to clean and delete all pulled filles, you can use `git clean -fdx -e .ddev`. 
 
-**Technical concept**
-<div style="display:none;">![](README_ddev_pull_ssh.png)</div>
+## (experimental) ⚡️&nbsp;  ddev push ssh --skip-db
 
-**Pull your child theme (Experimental!)**
+Use with caution, rsync can overwrite files or cause chaos! Always backup your live site!
 
-Use with caution, rsync can overwrite files! Always backup your site!
+This will push your child theme folder to the remote site you already configured for the pull.
 
 - Run `ddev push ssh --skip-db`
 
-This will push your child theme folder to the remote site you already configured for the pull. Currently rsync is configured without `--delete`-flag, therefore no files will be deleted on remote.
+Currently rsync is configured without `--delete`-flag, therefore no files will be deleted on remote child theme folder.
 
 ## 💾 &nbsp;ddev pull backup
 
