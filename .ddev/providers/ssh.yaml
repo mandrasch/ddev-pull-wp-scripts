@@ -139,9 +139,9 @@ files_import_command:
     echo "All set, have fun! Run 'ddev launch' to open your site."
   service: web
 
-# ! EXPERIMENTAL !
-# Push child theme to remove server
-# Other reliable ways are WPPusher, Github Action pipeline, etc.
+# ! EXPERIMENTAL - USE WITH CAUTION !
+# Push child theme folder to remote server
+# (Other reliable ways are WPPusher, Github Action pipeline, etc.)
 
 db_push_command:
   command: |
