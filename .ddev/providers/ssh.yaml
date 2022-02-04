@@ -1,7 +1,8 @@
 # Pull a live site WordPress site into DDEV
 
-# 'ddev pull ssh' - pulls a live wordpress site via SSH/mysqldump and rsync into DDEV.
-# 'ddev push ssh' - pushes the child theme files to the remote server
+# Commands:
+#   'ddev pull ssh' - pulls a live wordpress site via SSH/mysqldump and rsync into DDEV.
+#   'ddev push ssh' - pushes the child theme folder to the remote server
 # Project repository: https://github.com/mandrasch/ddev-pull-wp-scripts
 
 # Requires DDEV version >= 1.18.2 !
@@ -12,9 +13,9 @@
 # ------------------------------   configuration  ---------------------------------------------
 
 environment_variables:
-  sshUser: sshUser123
-  sshHost: ssh.example.org
-  sshWpPath: /home/sites/blog.example.org
+  sshUser: wp
+  sshHost: ba8v2nc.myraidbox.de
+  sshWpPath: /home/wp/disk/wordpress
   # path to wordpress on ssh server without(!) trailing slash, 
   # e.g.: /var/www/html/my-website.eu
   
@@ -84,7 +85,7 @@ files_pull_command:
     # (thx https://gist.github.com/luciomartinez/c322327605d40f86ee0c)
     [[ "${sshWpPath}" != */ ]] && sshWpPathTrailingSlash="${sshWpPath}/"
 
-    echo "Downloading files from remote site, except child theme folder ${childThemeFolderName} ..."
+    echo "Downloading files from remote site to /var/www/html/${DDEV_DOCROOT}"
     # exclude child theme + some default locations of wordpress backup plugins
     # (exclude pattern is glob based, not path based)
     # add -v for output of files transferred, -vv for full debug
@@ -94,9 +95,13 @@ files_pull_command:
       --exclude=".ddev/" \
       --exclude="README.md" \
       --exclude="LICENSE" \
-      --exclude="wp-content/themes/${childThemeFolderName}" \
       --exclude="wp-content/updraft" \
       ${sshUser}@${sshHost}:${sshWpPathTrailingSlash} .
+
+    # TODO: Should we use -a (archive mode) or is there a better combination of flags?
+
+    # (Use this if you want to exclude child theme:
+    #   --exclude="wp-content/themes/${childThemeFolderName}" \
   service: web
 
 # 4. Set database connection + migrate URLs in DB
@@ -136,12 +141,14 @@ files_import_command:
 
 # ! EXPERIMENTAL !
 # Push child theme to remove server
+# Other reliable ways are WPPusher, Github Action pipeline, etc.
 
 db_push_command:
   command: |
     # set -x   # You can enable bash debugging output by uncommenting
     set -eu -o pipefail
     echo "Skipping db_push_command, we don't use it."
+  service: web
 
 files_push_command:
   command: |
@@ -154,11 +161,13 @@ files_push_command:
     [[ "${sshWpPath}" != */ ]] && sshWpPathTrailingSlash="${sshWpPath}/"
 
     # Send child theme from source (DDEV) to target (SSH server / webspace)
-    source=./wp-content/themes/${childThemeFolderName}
-    target=${sshUser}@${sshHost}:${sshWpPathTrailingSlash}wp-content/themes/${childThemeFolderName}/
+    source="/var/www/html/${DDEV_DOCROOT}/wp-content/themes/${childThemeFolderName}/"
+    target="${sshUser}@${sshHost}:${sshWpPathTrailingSlash}wp-content/themes/${childThemeFolderName}"
   
-    echo "Pushing child theme to remote server ..."
+    echo "Configuration for push:"
     echo "Source: ${source}"
     echo "Target: ${target}"
     
-    # rsync -avzh --stats ${source} ${target}
+    echo "Start pushing the child theme folder..."
+    rsync -rvzh "${source}" "${target}"
+  service: web
