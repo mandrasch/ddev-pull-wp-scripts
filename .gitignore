@@ -30,11 +30,11 @@
 !/README_experimental.md
 
 # track command to connect to ssh (experimental, needs more work)
-!/.ddev/commands
-/.ddev/commands/*
-!/.ddev/commands/web
-/.ddev/commands/web/*
-!/.ddev/commands/web/ssh-remote
+#!/.ddev/commands
+#/.ddev/commands/*
+#!/.ddev/commands/web
+#/.ddev/commands/web/*
+#!/.ddev/commands/web/ssh-remote
 
 # For more info about this gitignore-pattern, see e.g.:
 # https://stackoverflow.com/a/29012085/809939)
