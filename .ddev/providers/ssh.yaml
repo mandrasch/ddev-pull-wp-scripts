@@ -27,8 +27,8 @@ environment_variables:
   # utf8 is default, but check DB_CHARSET in your live sites wp-config.php 
   # if you have trouble importing (e.g. emojis get lost)
 
-# -----------------------------  eo configuration  -------------------------------------------
-
+# -------------------------------------------------------------------------------------------
+# eo configuration
 
 # -----------------------------   provider script  -------------------------------------------
 # -            (Update the following code if ddev-pull-wp-scripts gets an update)            -
