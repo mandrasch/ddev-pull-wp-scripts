@@ -26,8 +26,8 @@
 # ----------------------------------------------
 # Special files for ddev-pull-wp-scripts repo
 # (if you clone this repo, you can delete them if not needed)
-!/README_ddev_pull_ssh.png
-!/README_experimental.md
+#!/README_ddev_pull_ssh.png
+#!/README_experimental.md
 
 # track command to connect to ssh (experimental, needs more work)
 #!/.ddev/commands
