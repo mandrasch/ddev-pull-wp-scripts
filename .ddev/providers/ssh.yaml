@@ -1,16 +1,18 @@
 # Pull a live site WordPress site into DDEV
 
+# Inofficial script for pulling and pushing for WordPress sites
+
 # Commands:
-#   'ddev pull ssh' - pulls a live wordpress site via SSH/mysqldump and rsync into DDEV.
-#   'ddev push ssh' - pushes the child theme folder to the remote server
+#   - 'ddev pull ssh' - pulls a live wordpress site via SSH/mysqldump and rsync into DDEV.
+#   - 'ddev push ssh' - pushes the child theme folder to the remote server
+#
 # Project repository: https://github.com/mandrasch/ddev-pull-wp-scripts
 
 # Requires DDEV version >= 1.18.2 !
 # https://github.com/drud/ddev/releases/tag/v1.18.2
 # https://ddev.readthedocs.io/en/stable/users/providers/provider-introduction/
 
-
-# ------------------------------   configuration  ---------------------------------------------
+# --------- configuration  ------------
 
 environment_variables:
   sshUser: wp
@@ -23,16 +25,13 @@ environment_variables:
   # just the folder name in wp-content/themes/, no slashes
   # if you don't use a child theme currently, just leave 'twentytwentyone-child'
   
-  remoteDbCharset: utf8
-  # utf8 is default, but check DB_CHARSET in your live sites wp-config.php 
-  # if you have trouble importing (e.g. emojis get lost)
-
-# -------------------------------------------------------------------------------------------
+# -------------------------------------
 # eo configuration
 
-# -----------------------------   provider script  -------------------------------------------
-# -            (Update the following code if ddev-pull-wp-scripts gets an update)            -
-# --------------------------------------------------------------------------------------------
+# ---------  provider script  ---------
+# (Update the following code if 
+#  ddev-pull-wp-scripts gets an update)
+# -------------------------------------
 
 # 1. Add ssh keys to the user agent
 auth_command:
@@ -41,11 +40,11 @@ auth_command:
 
 # 2. Pull a fresh database dump via SSH
 # 
-# Get db connection credentials from wp-config.php on live server,
+# Get db connection credentials via bash from wp-config.php on live server,
 # dump database via mysqldump to local .sql.gz file in .ddev/downloads
 # 
-# (Possible alternative, not implemented because detecting availability was complicated:
-# Use 'wp db export' command if WP-CLI is installed on remote, it'll use wp-config.php DB settings )
+# (Possible alternative: 'wp db export' command, not implemented yet because 
+#  detecting availability on remote server was not that easy)
 # 
 db_pull_command:
   command: |
@@ -53,24 +52,38 @@ db_pull_command:
     set -eu -o pipefail
     pushd "/var/www/html/${DDEV_DOCROOT}" >/dev/null
 
-    # Database dump via mysqldump on remote
-    # db connection credentials are parsed from live sites wp-config.php via bash
-    # see https://tomjn.com/2014/03/01/wordpress-bash-magic/
+    # Database dump via bash + mysqldump on remote
+    # db credentials are retrieved from wp-config.php via bash
+    # TODO: add support for mixed quotes / double quotes in wp-config.php?
 
-    ssh ${sshUser}@${sshHost} "cd ${sshWpPath} && mysqldump \
-      --default-character-set=${remoteDbCharset} \
-      --user=\$(cat wp-config.php | grep DB_USER | cut -d \' -f 4) \
-      --password=\$(cat wp-config.php | grep DB_PASSWORD | cut -d \' -f 4) \
-      --host=\$(cat wp-config.php | grep DB_HOST | cut -d \' -f 4) \
-      \$(cat wp-config.php | grep DB_NAME | cut -d \' -f 4) | gzip -9 -c" > .ddev/.downloads/db.sql.gz
+    (ssh ${sshUser}@${sshHost} "cd ${sshWpPath} && bash -s" <<'ENDSSH'
+      #set -x # uncomment for debug
+
+      # Only works with single quotes currently (no mixed quotes / double quotes)
+      DB_USER=$(cat wp-config.php | grep "'DB_USER'" | cut -d \' -f 4)
+      DB_PASSWORD=$(cat wp-config.php | grep "'DB_PASSWORD'" | cut -d \' -f 4)
+      DB_NAME=$(cat wp-config.php | grep "'DB_NAME'" | cut -d \' -f 4)
+      DB_HOST=$(cat wp-config.php | grep "'DB_HOST'" | cut -d \' -f 4)
+      DB_CHARSET=$(cat wp-config.php | grep "'DB_CHARSET'" | cut -d \' -f 4)
+
+      # special case, some hosters such as WPEngine have <host>:<port>,
+      DB_HOST=$(echo $DB_HOST| cut -d':' -f 1) # remove port
+
+      mysqldump \
+          --user $DB_USER \
+          --host $DB_HOST \
+          --default-character-set $DB_CHARSET \
+          --no-tablespaces \
+          --password="$DB_PASSWORD" $DB_NAME
+    ENDSSH
+    ) > .ddev/.downloads/db.sql
     
-    # TODO: add warning if wp-config.php parsing fails ... (How can this be checked in a robust way?)
+    # DDEV will import the db.sql.gz file automatically, compress it:
+    gzip -9 .ddev/.downloads/db.sql
 
-    # TODO: add solution for use of double quotes / single quotes / mixed quotes in wp-config.php
-    #       (e.g. define('DB_HOST', "mysql03.host.net");)
-    # Currently only single quotes are supported
+    # Thx to https://www.cloudsavvyit.com/14216/how-to-run-a-local-shell-script-on-a-remote-ssh-server/
+    # Thx to https://stackoverflow.com/a/45927977/809939
 
-    # (Important: backslash for mysqldump values, thx to https://stackoverflow.com/a/13826220)
   service: web
 
 # 3. Rsync all the files (except excludes)
@@ -127,14 +140,19 @@ files_import_command:
     # TODO: if [wp config has] would be better, but how to implement it here?
     # if [ "$(wp config has WP_HOME)" = 0 ]; then wp config delete WP_HOME; fi
     # if [ "$(wp config has WP_SITEURL)" = 1 ]; then wp config delete WP_SITEURL; fi
-    wp config set WP_HOME "${DDEV_PRIMARY_URL}"
-    wp config set WP_SITEURL "${DDEV_PRIMARY_URL}/"
+    # TODO: This throws a (false) error currently if var is not set, how do we get rid of it?
+    #       (Error: The constant or variable 'WP_HOME' is not defined in the 'wp-config.php' file.)
+    wp config set WP_HOME "${DDEV_PRIMARY_URL}" --no-add
+    wp config set WP_SITEURL "${DDEV_PRIMARY_URL}/" --no-add
 
-    # Optional: more steps would be possible here after import
-    # echo "Deleting config path for WP Super Cache (if installed) ..."
+    # Flush object cache
+    wp cache flush
+
+    # Optional: more steps would be possible here after import, e.g. for WP Super Cache
     # wp config delete WPCACHEHOME
 
     echo "All set, have fun! Run 'ddev launch' to open your site."
+
   service: web
 
 # ! EXPERIMENTAL - USE WITH CAUTION !
@@ -168,4 +186,5 @@ files_push_command:
     
     echo "Start pushing the child theme folder..."
     rsync -rvzh "${source}" "${target}"
+
   service: web
