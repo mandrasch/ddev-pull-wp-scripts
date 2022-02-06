@@ -1,19 +1,20 @@
-# Example DDEV project configuration
-# - You can as well use the interactive configurator:
-#   https://mandrasch.github.io/ddev-pull-wp-generator/
+# DDEV project configuration
 
-# All options: https://ddev.readthedocs.io/en/stable/users/extend/config_yaml/
-
-# Local website will be available via <name>.ddev.site,
-# e.g. for this config: https://my-wp-site.ddev.site
-name: my-wp-site
+# Local website will be available via <name>.ddev.site
+name: ddev-pull-wp-scripts
 type: wordpress
 docroot: ""
+nfs_mount_enabled: false
+mutagen_enabled: false
 
 # WebServer settings
 php_version: "7.4"
 mariadb_version: "10.3"
 webserver_type: nginx-fpm
+
+# All options: 
+# https://ddev.readthedocs.io/en/stable/users/extend/config_yaml/
+
 
 # ##################################################
 # #   If you change values, run 'ddev restart' !!  #
