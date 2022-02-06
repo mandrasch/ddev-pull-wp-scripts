@@ -2,7 +2,7 @@
 
 🧘&nbsp; *Keep calm and pull your site.* 🧘
 
-Open collection of DDEV pull scripts for happy local WordPress development: Pull in the latest site content to your local dev sever. Test, develop and design in peace without breaking your live site. These scripts require at least [DDEV 1.18.2](https://github.com/drud/ddev/releases/tag/v1.18.2).
+Inofficial DDEV pull and push scripts for happy local WordPress development: Pull in the latest site content to your local dev sever. Test, develop and design in peace without breaking your live site. These scripts require at least [DDEV 1.18.2](https://github.com/drud/ddev/releases/tag/v1.18.2).
 
 Status: *Work in Progress, please use with caution.*
 
@@ -44,7 +44,7 @@ Source code: [.ddev/providers/ssh.yaml](https://github.com/mandrasch/ddev-pull-w
 
 If you want to clean and delete all pulled filles, you can use `git clean -fdx -e .ddev`. 
 
-## (experimental) ⚡️&nbsp;  ddev push ssh --skip-db
+## (experimental) ⚡️&nbsp;  ddev push ssh
 
 Use with caution, rsync can overwrite files or cause chaos! Always backup your live site!
 
@@ -53,6 +53,15 @@ This will push your child theme folder to the remote site you already configured
 - Run `ddev push ssh --skip-db`
 
 Currently rsync is configured without `--delete`-flag, therefore no files will be deleted on remote child theme folder.
+
+### Webhoster support
+
+| Hosting company  | Pull tested? | Push tested ? |
+| ------------- | ------------- |
+| Manitu (DE)  | ✅ | In progress |
+| Raidboxes (DE) | ✅  | In progress |
+| WPEngine | In progress | In progress |
+| Mittwald (DE) | In progress  | In progress |
 
 ## 💾 &nbsp;ddev pull backup
 
