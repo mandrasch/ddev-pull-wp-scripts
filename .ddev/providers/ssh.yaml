@@ -140,9 +140,10 @@ files_import_command:
     # if [ "$(wp config has WP_HOME)" = 0 ]; then wp config delete WP_HOME; fi
     # if [ "$(wp config has WP_SITEURL)" = 1 ]; then wp config delete WP_SITEURL; fi
     # TODO: This throws a (false) error currently if var is not set, how do we get rid of it?
-    #       (Error: The constant or variable 'WP_HOME' is not defined in the 'wp-config.php' file.)
-    wp config set WP_HOME "${DDEV_PRIMARY_URL}" --no-add
-    wp config set WP_SITEURL "${DDEV_PRIMARY_URL}/" --no-add
+    #       event with --no-add: 
+    #       Error: The constant or variable 'WP_HOME' is not defined in the 'wp-config.php' file.)
+    wp config set WP_HOME "${DDEV_PRIMARY_URL}"
+    wp config set WP_SITEURL "${DDEV_PRIMARY_URL}/"
 
     # Flush object cache
     wp cache flush
