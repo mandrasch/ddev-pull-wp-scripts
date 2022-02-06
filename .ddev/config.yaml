@@ -6,7 +6,7 @@
 
 # Local website will be available via <name>.ddev.site,
 # e.g. for this config: https://my-wp-site.ddev.site
-name: my-wp-nature-blog
+name: my-wp-site
 type: wordpress
 docroot: ""
 
