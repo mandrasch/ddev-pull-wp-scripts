@@ -58,7 +58,7 @@ db_pull_command:
     # see https://tomjn.com/2014/03/01/wordpress-bash-magic/
 
     ssh ${sshUser}@${sshHost} "cd ${sshWpPath} && mysqldump \
-      --default-character-set=${REMOTE_DB_CHARSET} \
+      --default-character-set=${remoteDbCharset} \
       --user=\$(cat wp-config.php | grep DB_USER | cut -d \' -f 4) \
       --password=\$(cat wp-config.php | grep DB_PASSWORD | cut -d \' -f 4) \
       --host=\$(cat wp-config.php | grep DB_HOST | cut -d \' -f 4) \
