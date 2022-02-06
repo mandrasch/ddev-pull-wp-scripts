@@ -57,7 +57,7 @@ Currently rsync is configured without `--delete`-flag, therefore no files will b
 ### Webhoster support
 
 | Hosting company  | Pull tested? | Push tested ? |
-| ------------- | ------------- |
+| ------------- | ------------- | ------------- |
 | Manitu (DE)  | ✅ | In progress |
 | Raidboxes (DE) | ✅  | In progress |
 | WPEngine | In progress | In progress |
