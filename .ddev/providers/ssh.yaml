@@ -51,9 +51,7 @@ db_pull_command:
     # set -x   # You can enable bash debugging output by uncommenting
     set -eu -o pipefail
     pushd "/var/www/html/${DDEV_DOCROOT}" >/dev/null
-
-    # Database dump via bash + mysqldump on remote
-    # db credentials are retrieved from wp-config.php via bash
+    
     # TODO: add support for mixed quotes / double quotes in wp-config.php?
 
     (ssh ${sshUser}@${sshHost} "cd ${sshWpPath} && bash -s" <<'ENDSSH'
@@ -81,8 +79,8 @@ db_pull_command:
     # DDEV will import the db.sql.gz file automatically, compress it:
     gzip -9 .ddev/.downloads/db.sql
 
-    # Thx to https://www.cloudsavvyit.com/14216/how-to-run-a-local-shell-script-on-a-remote-ssh-server/
     # Thx to https://stackoverflow.com/a/45927977/809939
+    # Thx to https://www.cloudsavvyit.com/14216/how-to-run-a-local-shell-script-on-a-remote-ssh-server/
 
   service: web
 
@@ -94,8 +92,9 @@ files_pull_command:
     ls /var/www/html/.ddev >/dev/null 
     pushd /var/www/html/${DDEV_DOCROOT} >/dev/null
 
-    # Add trailing slash for sshWpPath (maybe user mistakenly provided trailing slash) 
-    # (thx https://gist.github.com/luciomartinez/c322327605d40f86ee0c)
+    # Add trailing slash for sshWpPath here in a safe way
+    # (maybe user mistakenly provided trailing slash, thx 
+    # https://gist.github.com/luciomartinez/c322327605d40f86ee0c)
     [[ "${sshWpPath}" != */ ]] && sshWpPathTrailingSlash="${sshWpPath}/"
 
     echo "Downloading files from remote site to /var/www/html/${DDEV_DOCROOT}"
@@ -119,9 +118,9 @@ files_pull_command:
 # 
 # We use this step to run some important WP-CLI commands locally
 # a) Replace db connection settings in wp-config.php
-# b) Replace live site url (determined from backup)
-# with DDEV_PRIMARY_URL (<your-project>.ddev.site) in local databse
-# TODO: c) re-generate permalinks? other steps needed?
+# b) Database migration: Replace live site url (from pulled wp-config)
+#    with DDEV_PRIMARY_URL (<your-project>.ddev.site) in local database
+# c) Overwrite WP_HOME and WP_SITEURL
 files_import_command:
   command: |
     # set -x  # You can enable bash debugging output by uncommenting
