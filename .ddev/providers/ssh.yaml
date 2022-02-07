@@ -52,8 +52,8 @@ db_pull_command:
     set -eu -o pipefail
     pushd "/var/www/html/${DDEV_DOCROOT}" >/dev/null
     
+    # run shell commands on remote server for db dump (via heredoc structure)
     # TODO: add support for mixed quotes / double quotes in wp-config.php?
-
     (ssh ${sshUser}@${sshHost} "cd ${sshWpPath} && bash -s" <<'ENDSSH'
       #set -x # uncomment for debug
 
