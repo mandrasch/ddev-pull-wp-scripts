@@ -9,7 +9,7 @@ Status: *Work in Progress, please use with caution.*
 ## Scripts
 
 - ⚡️&nbsp; [ddev pull ssh](#%EF%B8%8F--ddev-pull-ssh) - *pull a site with just one command*<br> 
-- ⚡️&nbsp; [ddev push ssh --skip-db](#experimental-%EF%B8%8F--ddev-push-ssh) - *push the child theme*<br><br>(experimental)
+- ⚡️&nbsp; [ddev push ssh --skip-db](#experimental-%EF%B8%8F--ddev-push-ssh) - *push the child theme* (experimental)<br><br>
 - 💾 &nbsp; [ddev pull backup](#-ddev-pull-backup) - *download and import a BackWpUp .zip-file*
 
 ## Helpful resources
