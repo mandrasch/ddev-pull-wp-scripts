@@ -67,6 +67,10 @@ Currently rsync is configured without `--delete`-flag, therefore no files will b
 
 Create and (manually) download a BackWpUp backup-file from your live site, import it to your local DDEV project. No SSH required, just download your backup file and import it as .zip-file.
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#DDEV_REPO=https%3A%2F%2Fgithub.com%2Fmandrasch%2Fddev-pull-wp-scripts,DDEV_ARTIFACTS=https%3A%2F%2Fgithub.com%2Fdrud%2Fd9simple-artifacts/https://github.com/drud/ddev-gitpod-launcher/)
+
+Gitpod support via [drud/ddev-gitpod-launcher](https://drud.github.io/ddev-gitpod-launcher/)
+
 **First time project setup**
 
 1. Copy `.ddev/example.config.yaml` to `.ddev/config.yaml`
