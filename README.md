@@ -139,6 +139,8 @@ Just login into wp-admin/-dashboard, WP Super Cache will repair the path or remo
 
 ### Emojis get lost after import and are replaced with ????
 
+Update: This should be fix now.
+
 This is a charset issue I wasn't able to fix automatically yet. Please check your live sites `wp-config.php` and look for `DB_CHARSET`. Set this value in ssh.yaml for `REMOTE_DB_CHARSET=` and pull via ssh again (`ddev pull ssh`).
 
 (Technical infos: It is related to DB_CHARSET set to something other than default 'utf8' in wp-config.php. For utf8mb4 the export needs to done with `mysqldump --default-character-set=utf8mb4` to be correct (https://stackoverflow.com/a/45301470/809939). But WordPress docs state DB_CHARSET setting may be not existent in wp-config.php, so we can't just read it from wp-config.php via bash, needs to be a conditional bash parsing from wp-config.php (See: https://wordpress.org/support/article/editing-wp-config-php/#database-character-set).)
