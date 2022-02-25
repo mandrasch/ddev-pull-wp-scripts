@@ -74,6 +74,21 @@ files_import_command:
     echo "Replacing the old URL ($(wp option get siteurl)) in database with DDEV local url (${DDEV_PRIMARY_URL})..."
     wp search-replace "$(wp option get siteurl)" "${DDEV_PRIMARY_URL}"
     
+    # Additional update the wp config values, because some devs/hoster, e.g. raidboxes put it here (TODO: only remove if existent)
+    # TODO: if [wp config has] would be better, but how to implement it here?
+    # if [ "$(wp config has WP_HOME)" = 0 ]; then wp config delete WP_HOME; fi
+    # if [ "$(wp config has WP_SITEURL)" = 1 ]; then wp config delete WP_SITEURL; fi
+    # TODO: This throws a (false) error currently if var is not set, how do we get rid of it?
+    #       event with --no-add: 
+    #       Error: The constant or variable 'WP_HOME' is not defined in the 'wp-config.php' file.)
+    
+    # Set primary url in wp-config as well (see explaination above)
+    wp config set WP_HOME "${DDEV_PRIMARY_URL}"
+    wp config set WP_SITEURL "${DDEV_PRIMARY_URL}/"
+    
+    # Flush object cache
+    wp cache flush
+    
     # Optional steps, depends on how you site is built:
     # echo "Deleting config path for WP Super Cache (if installed) ..."
     # wp config delete WPCACHEHOME
