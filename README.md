@@ -152,6 +152,8 @@ This is a charset issue I wasn't able to fix automatically yet. Please check you
 - [ ] Only single quotes are currently support with getting db values via bash (because of cut -d = delimiter is `'`)
 - [ ] PHP 8.1 support? WP-CLI threw some errors, maybe fixed in new release? https://make.wordpress.org/cli/2022/01/26/wp-cli-v2-6-0-release-notes/
 - [ ] Find out how to integrate https://git-updater.com/ within this workflow (See: https://github.com/afragen/git-updater/issues/716)
+- [ ] Is https://github.com/jackd248/db-sync-tool more reliable? (ddev must be extended to support python), saw this via https://www.youtube.com/watch?app=desktop&v=nzxTPAMFssA)
+
 
 ## Acknowledgements
 
