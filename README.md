@@ -125,6 +125,8 @@ Good - use only single quotes: `define('DB_NAME', 'db75994');`
 
 (Debug this with a) connect to ssh `ddev ssh-production` and b) run `echo (cat wp-config.php | grep DB_NAME | cut -d \' -f 4)`, if this output is empty the bash parsing doesn't work properly for your site.) 
 
+Please use only single quotes for all `DB_`-values in wp-config.php.
+
 ### Correct database type (mysql or maria db)?
 
 Please make sure that the DDEV database type matches the database type of the backup / import. 
