@@ -116,7 +116,7 @@ Pull scripts are import steps for database and files which are stored as .yaml-f
 
 Please check with `ddev -v` that you are using [DDEV 1.18.2](https://github.com/drud/ddev/releases/tag/v1.18.2) or newer.
 
-### Database dump doesn't work?
+### Database dump doesn't work - only single quotes are supported in wp-config.php!
 
 If you use double quotes or single + double quotes mixed in wp-config.php, the script can't figure out the database credentials.
 
