@@ -91,7 +91,9 @@ Source code: [.ddev/providers/backup.yaml](https://github.com/mandrasch/ddev-pul
 
 ## Child theme deployment
 
-You can optionally manage a child theme via git and deploy it with a tool like [WPPusher](https://wppusher.com/) (no git on server required). This repository already contains an example child theme. 
+You can optionally manage a child theme via git and deploy it with a tool like [WPPusher](https://wppusher.com/) or [SayHelloGmbH/git-installer](https://github.com/SayHelloGmbH/git-installer) (no git on server required, works via HTTP apis of Github, Bitbucket, etc.). This repository already contains an example child theme. 
+
+
 
 ## Technical Documentation
 
