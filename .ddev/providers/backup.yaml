@@ -10,9 +10,14 @@
 # - Requires DDEV version >= 1.18.2 !
 #   (https://github.com/drud/ddev/releases/tag/v1.18.2)
 
+# --------- configuration  ------------
+
 environment_variables:
   backupfile: backup.zip # needs to be in docroot (your project folder)
   childThemeFolderName: "twentytwentyone-child"
+
+# -------------------------------------
+# eo configuration
 
 # - This step unzips the sql file from backup and generates a .sql.gz file,
 #   which DDEV imports automatically (via standard db_import_command).
