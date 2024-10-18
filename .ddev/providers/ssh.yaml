@@ -57,12 +57,12 @@ db_pull_command:
     (ssh ${sshUser}@${sshHost} "cd ${sshWpPath} && bash -s" <<'ENDSSH'
       #set -x # uncomment for debug
 
-      # Only works with single quotes currently (no mixed quotes / double quotes)
-      DB_USER=$(cat wp-config.php | grep "'DB_USER'" | cut -d \' -f 4)
-      DB_PASSWORD=$(cat wp-config.php | grep "'DB_PASSWORD'" | cut -d \' -f 4)
-      DB_NAME=$(cat wp-config.php | grep "'DB_NAME'" | cut -d \' -f 4)
-      DB_HOST=$(cat wp-config.php | grep "'DB_HOST'" | cut -d \' -f 4)
-      DB_CHARSET=$(cat wp-config.php | grep "'DB_CHARSET'" | cut -d \' -f 4)
+      # Extract DB credentials from wp-config.php. Use awk to match single, double, or mixed quotes
+      DB_USER=$(awk -F"['\"]" '/DB_USER/ {print $4}' wp-config.php)
+      DB_PASSWORD=$(awk -F"['\"]" '/DB_PASSWORD/ {print $4}' wp-config.php)
+      DB_NAME=$(awk -F"['\"]" '/DB_NAME/ {print $4}' wp-config.php)
+      DB_HOST=$(awk -F"['\"]" '/DB_HOST/ {print $4}' wp-config.php)
+      DB_CHARSET=$(awk -F"['\"]" '/DB_CHARSET/ {print $4}' wp-config.php)
 
       # special case, some hosters such as WPEngine have <host>:<port>,
       DB_HOST=$(echo $DB_HOST| cut -d':' -f 1) # remove port
